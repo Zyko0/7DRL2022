@@ -1,0 +1,22 @@
+package main
+
+func colorize(t, t2 float) vec3 {
+	color := mix(
+		vec3(0.02, 0.76, 0.87),
+		vec3(0., 0.31, 0.71),
+		smoothstep(0., 1., t),
+	)
+	return normalize(color+vec3(1., 0., 1.)*t2)
+}
+
+func sdCircle(p vec2, r float) float {
+	return length(p) - r
+}
+
+func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
+	p := texCoord
+	p.x = mod(p.x, 1./color.r)*color.r // R component is cell count
+	p = p*2. - 1.
+	d := abs(sdCircle(p, 0.5))
+	return vec4(colorize(d, abs(texCoord.x*2.-1.)), 1.)
+}

@@ -1,0 +1,20 @@
+package main
+
+// TODO: remove this com => handle enemies oscillating, rotating, chests, etc..
+// TODO: this is a sdf shader
+
+func head() vec4 {
+	return vec4(1., 0., 0., 1.)
+}
+
+func body() vec4 {
+	return vec4(0., 1., 0., 1.)
+}
+
+func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
+	if texCoord.y < 0.5 {
+		return head()
+	}
+
+	return body()
+}
