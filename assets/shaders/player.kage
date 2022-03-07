@@ -3,18 +3,48 @@ package main
 // TODO: remove this com => handle enemies oscillating, rotating, chests, etc..
 // TODO: this is a sdf shader
 
-func head() vec4 {
-	return vec4(1., 0., 0., 1.)
+var Orientation vec2
+
+func body(p vec2) vec3 {
+	x := abs(p.x*2.-1.)
+	y := abs(p.y*2.-1.)
+	c0 := mix(
+		vec3(1., 1., 1.),
+		vec3(0.3, 0.3, 1.),
+		x,
+	)
+	c1 := mix(
+		vec3(0.98, 0.40, 0.08),
+		vec3(0.5, 0.19, 0.65),
+		x,
+	)
+
+	return mix(c0, c1, y)
 }
 
-func body() vec4 {
-	return vec4(0., 1., 0., 1.)
+func shade(y float, clr vec3) vec3 {
+	return normalize(clr-vec3(0.3, 0.2, 0.2)*sin(y*6.))
+}
+
+func eyes(p vec2) vec3 {
+	p.y = 1.-p.y // Flip y
+	p = p*2.-1.
+	p.x -= Orientation.x
+	p.y -= Orientation.y*0.5
+	d := min(
+		length(p-vec2(-0.3, 0.7))-0.25,
+		length(p-vec2(0.3, 0.7))-0.25,
+	)
+	if d < 0. {
+		return vec3(0.3)
+	}
+	return vec3(1.)
 }
 
 func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
-	if texCoord.y < 0.5 {
-		return head()
-	}
+	clr := body(texCoord)
+	clr = shade(texCoord.y, clr)
+	clr *= eyes(texCoord)
 
-	return body()
+	return vec4(clr, 1.)
 }

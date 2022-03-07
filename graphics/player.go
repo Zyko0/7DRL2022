@@ -14,5 +14,14 @@ func (r *Renderer) RenderPlayer(screen *ebiten.Image, p *core.Player) {
 		float32(p.Width), float32(p.Height),
 		0, 0, 0, 0, 0,
 	)
-	screen.DrawTrianglesShader(vertices, indices, assets.PlayerShader, &ebiten.DrawTrianglesShaderOptions{})
+
+	orientationY := float32(0)
+	if p.VelocityVector[1] < -20 { // Arbitrary value
+		orientationY = -1
+	}
+	screen.DrawTrianglesShader(vertices, indices, assets.PlayerShader, &ebiten.DrawTrianglesShaderOptions{
+		Uniforms: map[string]interface{}{
+			"Orientation": []float32{float32(p.Orientation), orientationY},
+		},
+	})
 }
