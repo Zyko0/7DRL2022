@@ -3,6 +3,7 @@ package graphics
 import (
 	"github.com/Zyko0/7DRL2022/assets"
 	"github.com/Zyko0/7DRL2022/core"
+	"github.com/Zyko0/7DRL2022/core/utils"
 	"github.com/Zyko0/7DRL2022/logic"
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -16,7 +17,8 @@ func (r *Renderer) RenderPlayer(screen *ebiten.Image, p *core.Player) {
 	)
 
 	orientationY := float32(0)
-	if p.VelocityVector[1] < -20 { // Arbitrary value
+	// If falling at max speed
+	if p.VelocityVector[1] <= utils.MaxFallSpeed {
 		orientationY = -1
 	}
 	screen.DrawTrianglesShader(vertices, indices, assets.PlayerShader, &ebiten.DrawTrianglesShaderOptions{

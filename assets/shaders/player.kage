@@ -30,10 +30,11 @@ func eyes(p vec2) vec3 {
 	p.y = 1.-p.y // Flip y
 	p = p*2.-1.
 	p.x -= Orientation.x
-	p.y -= Orientation.y*0.5
+	p.y *= 2. // Restore 1/2 ratio with x
+	p.y -= Orientation.y*1.25*2.
 	d := min(
-		length(p-vec2(-0.3, 0.7))-0.25,
-		length(p-vec2(0.3, 0.7))-0.25,
+		length(p-vec2(-0.4, 1.25))-0.3,
+		length(p-vec2(0.4, 1.25))-0.3,
 	)
 	if d < 0. {
 		return vec3(0.3)
