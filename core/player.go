@@ -1,8 +1,8 @@
 package core
 
 import (
-	"github.com/Zyko0/7DRL2022/logic"
 	"github.com/Zyko0/7DRL2022/core/platform"
+	"github.com/Zyko0/7DRL2022/logic"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
@@ -18,6 +18,7 @@ type Player struct {
 	MoveSpeed     float64
 	JumpForce     float64
 
+	HP               uint
 	GroundedPlatform *platform.Platform
 	Orientation      float64
 	IntentVector     []float64
@@ -33,6 +34,7 @@ func NewPlayer() *Player {
 		MoveSpeed: DefaultMoveSpeed,
 		JumpForce: BaseJumpForce,
 
+		HP:               3,
 		GroundedPlatform: nil,
 		Orientation:      0,
 		IntentVector:     []float64{0, 0},

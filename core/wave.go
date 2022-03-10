@@ -13,9 +13,10 @@ const (
 )
 
 type Wave struct {
-	ticks uint64
-	rng   *rand.Rand
-	rate  float64
+	ticks      uint64
+	rng        *rand.Rand
+	rate       float64
+	nextHeight float64
 
 	levels []float64
 	min    float64
@@ -29,9 +30,10 @@ func NewWave(rng *rand.Rand) *Wave {
 	}
 
 	return &Wave{
-		ticks: 0,
-		rng:   rng,
-		rate:  WaveInitialGrowingRate,
+		ticks:      0,
+		rng:        rng,
+		rate:       WaveInitialGrowingRate,
+		nextHeight: 0,
 
 		levels: levels,
 	}
@@ -58,7 +60,17 @@ func (w *Wave) advanceLevels(maxAmount float64) {
 	w.max = max
 }
 
-func (w *Wave) Update() {
+func (w *Wave) Update(p *Player) {
+	if p.Y+p.Height/2 < w.levels[int(p.X/60)] {
+		// TODO: take hp
+		return
+	}
+
+	if p.Height > w.nextHeight {
+		w.increaseGrowingRate()
+		w.nextHeight += WaveIncreaseFrequencyHeightInterval
+	}
+
 	w.advanceLevels(w.rate)
 
 	w.ticks++

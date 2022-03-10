@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/Zyko0/7DRL2022/core/event"
 	"github.com/Zyko0/7DRL2022/core/platform"
 	"github.com/Zyko0/7DRL2022/core/utils"
 	"github.com/Zyko0/7DRL2022/logic"
@@ -16,8 +17,9 @@ const (
 )
 
 type Core struct {
-	rng        *rand.Rand
-	nextHeight float64
+	rng          *rand.Rand
+	nextHeight   float64
+	eventManager *event.Manager
 
 	Wave      *Wave
 	Platforms *platform.List
@@ -28,8 +30,9 @@ func NewCore() *Core {
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	return &Core{
-		rng:        rng,
-		nextHeight: WaveIncreaseFrequencyHeightInterval,
+		rng:          rng,
+		nextHeight:   WaveIncreaseFrequencyHeightInterval,
+		eventManager: event.NewManager(),
 
 		Wave:      NewWave(rng),
 		Platforms: platform.NewList(),
@@ -132,9 +135,13 @@ func (c *Core) handleCollisions() {
 }
 
 func (c *Core) Update() {
-	if c.Player.Y+c.Player.Height/2 < c.Wave.levels[int(c.Player.X/60)] {
+	if c.Player.Y < 0 {
 		return
 	}
+
+	// Events
+	c.eventManager.Update(c.Player.Y)
+	c.handleEvents()
 	// Platforms
 	c.handlePlatformGeneration()
 	// Player
@@ -143,9 +150,5 @@ func (c *Core) Update() {
 	c.handleCollisions()
 
 	// Wave
-	if c.Player.Y > c.nextHeight {
-		c.Wave.increaseGrowingRate()
-		c.nextHeight += WaveIncreaseFrequencyHeightInterval
-	}
-	c.Wave.Update()
+	c.Wave.Update(c.Player)
 }
