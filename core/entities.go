@@ -49,15 +49,13 @@ func (c *Core) handleEntities() {
 				if contact := e.Contact(); contact != entity.ContactNone {
 					switch contact {
 					case entity.ContactDamageHalfHP:
-						c.Player.HP -= 0.5
+						c.Player.AddHP(-0.5)
 					case entity.ContactDamage1HP:
-						c.Player.HP -= 1
+						c.Player.AddHP(-1)
 					case entity.ContactDamage2HP:
-						c.Player.HP -= 2
+						c.Player.AddHP(-2)
 					case entity.ContactHeal1HP:
-						if c.Player.HP+1 > PlayerMaxHP {
-							c.Player.HP = PlayerMaxHP
-						}
+						c.Player.AddHP(1)
 					case entity.ContactItem:
 						// TODO: trigger a UI popup to pick a bonus
 					}

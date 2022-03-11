@@ -1,8 +1,36 @@
 package main
 
-// TODO: remove this com => handle enemies oscillating, rotating, chests, etc..
-// TODO: this is a sdf shader
+const (
+	EntityChest = 0.5
+	EntityEnemy = 1.5
+	EntityAoe   = 2.5
+	EntityHeart = 3.5
+)
+
+func chest(p vec2) vec4 {
+	return vec4(1.)
+}
+
+func enemy(p vec2, args vec3) vec4 {
+	d := length(p)-1.
+	if d > 0. {
+		return vec4(0.)
+	}
+
+	return vec4(-d, 0., 0., 1.)
+}
 
 func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
-	return vec4(1.)
+	clr := vec4(0.)
+	
+	p := texCoord * 2. - 1.
+	if color.r < EntityChest {
+		clr = chest(p)
+	} else if color.r < EntityEnemy {
+		clr = enemy(p, color.gba)
+	} else if color.r < EntityAoe {
+	} else if color.r < EntityHeart {		
+	}
+	
+	return clr
 }
