@@ -43,6 +43,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.renderer.RenderEntities(screen, g.core.Entities)
 	g.renderer.RenderPlayer(screen, g.core.Player)
 	g.renderer.RenderWave(screen, g.core.Wave)
+	g.renderer.RenderHUD(screen, g.core.Player.HP, uint64(g.core.Player.Height))
 	// Debug
 	ebitenutil.DebugPrint(
 		screen,
