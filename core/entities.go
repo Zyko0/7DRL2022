@@ -4,6 +4,7 @@ import (
 	"math"
 
 	"github.com/Zyko0/7DRL2022/core/entity"
+	"github.com/Zyko0/7DRL2022/core/platform"
 	"github.com/Zyko0/7DRL2022/logic"
 )
 
@@ -32,6 +33,13 @@ func (c *Core) spawnRandomEnemy() {
 	})
 
 	c.Entities = append(c.Entities, enemy)
+}
+
+func (c *Core) spawnChest(p *platform.Platform) {
+	x := p.X
+	y := p.Y + logic.UnitSize
+
+	c.Entities = append(c.Entities, entity.NewChest(x, y))
 }
 
 func (c *Core) handleEntities() {

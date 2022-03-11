@@ -13,8 +13,9 @@ type Manager struct {
 	lastEnemyTick     uint64
 	lastWaveResetTick uint64
 
-	lastChestHeight            uint64
-	lastSpecialPlatformsHeight uint64
+	lastChestHeight             uint64
+	lastSpecialPlatformsHeight  uint64
+	lastPlatformReductionHeight uint64
 }
 
 func NewManager() *Manager {
@@ -40,7 +41,7 @@ func (m *Manager) Update(height float64) {
 
 	// Aoe
 	const minAoeSpawnTick = 120 * logic.TPS
-	if m.ticks > minAoeSpawnTick {
+	if m.ticks >= minAoeSpawnTick {
 		freq := tickAoeFrequencyFromHeight(m.height - minAoeSpawnTick)
 		if m.ticks >= m.lastAoeTick+freq {
 			m.lastAoeTick = m.ticks
@@ -49,25 +50,26 @@ func (m *Manager) Update(height float64) {
 	}
 
 	// Enemies
-	const minEnemySpawnTick = 60 * logic.TPS
-	// TODO: if m.ticks > minEnemySpawnTick
-	freq := tickEnemyFrequencyFromTicks(m.ticks)
-	if m.ticks >= m.lastEnemyTick+freq {
-		m.lastEnemyTick = m.ticks
-		m.events = append(m.events, KindEnemySpawn)
+	const minEnemySpawnTick = 10 * logic.TPS
+	if m.ticks >= minEnemySpawnTick {
+		freq := tickEnemyFrequencyFromTicks(m.ticks)
+		if m.ticks >= m.lastEnemyTick+freq {
+			m.lastEnemyTick = m.ticks
+			m.events = append(m.events, KindEnemySpawn)
+		}
 	}
 
 	// Wave reset
-	freq = tickWaveResetFrequency
+	freq := tickWaveResetFrequency
 	if m.ticks >= m.lastWaveResetTick+freq {
 		m.lastWaveResetTick = m.ticks
 		m.events = append(m.events, KindWaveReset)
 	}
 
 	// Chest
-	const minChestHeight = 8500
+	const minChestHeight = 6500
 	if h := uint64(m.height - minChestHeight); h > 0 {
-		if h >= m.lastChestHeight+heightChestFrequency {
+		if uint64(m.height) >= m.lastChestHeight+heightChestFrequency {
 			m.lastChestHeight = uint64(m.height)
 			m.events = append(m.events, KindChestSpawn)
 			// Here we want to abort as there will be specific platforms above chest
@@ -76,11 +78,20 @@ func (m *Manager) Update(height float64) {
 	}
 
 	// Special platforms
-	const minSpecialPlatformsHeight = 10000
+	const minSpecialPlatformsHeight = 15000
 	if h := uint64(m.height - minSpecialPlatformsHeight); h > 0 {
-		if h >= m.lastSpecialPlatformsHeight+heightSpecialPlatformsFrequency {
+		if uint64(m.height) >= m.lastSpecialPlatformsHeight+heightSpecialPlatformsFrequency {
 			m.lastSpecialPlatformsHeight = uint64(m.height)
 			m.events = append(m.events, KindSpecialPlatforms)
+		}
+	}
+
+	// Reduce Platform width
+	const minReducePlatformWidthHeight = 10000
+	if h := uint64(m.height - minReducePlatformWidthHeight); h > 0 {
+		if uint64(m.height) >= m.lastPlatformReductionHeight+heightPlatformReductionFrequency {
+			m.lastPlatformReductionHeight = uint64(m.height)
+			m.events = append(m.events, KindReducePlatformWidth)
 		}
 	}
 }

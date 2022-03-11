@@ -9,4 +9,5 @@ const (
 	KindWaveReset
 	KindChestSpawn
 	KindSpecialPlatforms
+	KindReducePlatformWidth
 )

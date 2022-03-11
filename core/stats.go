@@ -2,6 +2,7 @@ package core
 
 import (
 	"github.com/Zyko0/7DRL2022/core/bonus"
+	"github.com/Zyko0/7DRL2022/core/platform"
 	"github.com/Zyko0/7DRL2022/logic"
 )
 
@@ -18,7 +19,7 @@ func NewStats() *Stats {
 	return &Stats{
 		AirControl:          false,
 		SpawnHearts:         false,
-		PlatformCellCount:   4,
+		PlatformCellCount:   platform.BaseCellsCount,
 		EventPlatformsCount: 4,
 		JumpForce:           2,
 		WaveHealMod:         0,

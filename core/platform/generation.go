@@ -35,7 +35,7 @@ func Generate(rng *rand.Rand, from *Platform, cellsCount int, v []float64) *Plat
 		minIteration++
 	}
 	// Find max iterations to be above previous platform
-	maxIteration := minIteration+1
+	maxIteration := minIteration
 	for sy > from.Y {
 		sx += vx
 		sy += vy
@@ -43,13 +43,16 @@ func Generate(rng *rand.Rand, from *Platform, cellsCount int, v []float64) *Plat
 		maxIteration++
 	}
 	// Pick an iteration
-	// TODO: -5 to avoid too much proximity between platforms
-	iteration := rng.Intn(maxIteration-minIteration) + minIteration - 5
+	// TODO: -8 to avoid too much proximity => Need some tuning maybe
+	iteration := minIteration + (rng.Intn(maxIteration - minIteration - 8))
 	vy = v[1]
 	for i := 0; i <= iteration; i++ {
 		startX += vx
 		startY += vy
 		vy += utils.FallSpeed
+		if vy < utils.MaxFallSpeed {
+			vy = utils.MaxFallSpeed
+		}
 	}
 	// Put it further or closer
 	switch rng.Intn(2) {

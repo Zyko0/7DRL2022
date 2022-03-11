@@ -5,7 +5,8 @@ import (
 )
 
 const (
-	BaseCellsCount = 3
+	MinCellsCount  = 2
+	BaseCellsCount = 4
 )
 
 type Platform struct {
