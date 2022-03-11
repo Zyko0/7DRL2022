@@ -16,7 +16,7 @@ func (r *Renderer) RenderPlatforms(screen *ebiten.Image, list *platform.List) {
 	y0 := r.cameraYOffset - logic.ScreenHeight/2 - logic.UnitSize
 	y1 := y0 + logic.ScreenHeight + logic.UnitSize*2
 	for i, p := range list.AppendPlatformsInRange(nil, y0, y1) {
-		vertices, indices = appendQuadVerticesIndices(
+		vertices, indices = AppendQuadVerticesIndices(
 			vertices,
 			indices,
 			float32(p.X-p.Width/2), float32(r.cameraYOffset-p.Y+logic.ScreenHeight/2-logic.UnitSize/2),

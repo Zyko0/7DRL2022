@@ -21,7 +21,7 @@ func NewStats() *Stats {
 		SpawnHearts:         false,
 		PlatformCellCount:   platform.BaseCellsCount,
 		EventPlatformsCount: 4,
-		JumpForce:           2,
+		JumpForce:           BaseJumpForce,
 		WaveHealMod:         0,
 	}
 }

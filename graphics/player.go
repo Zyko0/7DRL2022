@@ -9,7 +9,7 @@ import (
 )
 
 func (r *Renderer) RenderPlayer(screen *ebiten.Image, p *core.Player) {
-	vertices, indices := appendQuadVerticesIndices(
+	vertices, indices := AppendQuadVerticesIndices(
 		nil, nil,
 		float32(p.X-p.Width/2), float32(logic.ScreenHeight/2-p.Height/2),
 		float32(p.Width), float32(p.Height),

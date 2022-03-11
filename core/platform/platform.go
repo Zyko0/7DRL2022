@@ -20,7 +20,7 @@ type Platform struct {
 	Width      float64
 }
 
-func new(x, y float64, cellsCount int, sided float64) *Platform {
+func New(x, y float64, cellsCount int, sided float64) *Platform {
 	return &Platform{
 		sided: sided,
 

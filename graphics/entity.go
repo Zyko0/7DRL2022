@@ -23,7 +23,7 @@ func (r *Renderer) RenderEntities(screen *ebiten.Image, entities []entity.Entity
 		}
 		w, h := e.GetSize()
 		pr, pg, pb, pa := e.GetGfxParams()
-		vertices, indices = appendQuadVerticesIndices(
+		vertices, indices = AppendQuadVerticesIndices(
 			vertices,
 			indices,
 			float32(x-w/2), float32(r.cameraYOffset-y+logic.ScreenHeight/2-h/2),

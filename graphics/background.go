@@ -12,7 +12,7 @@ var (
 )
 
 func init() {
-	screenQuadVertices, screenQuadIndices = appendQuadVerticesIndices(
+	screenQuadVertices, screenQuadIndices = AppendQuadVerticesIndices(
 		screenQuadVertices, screenQuadIndices,
 		0, 0,
 		logic.ScreenWidth, logic.ScreenHeight,

@@ -20,7 +20,7 @@ func NewList() *List {
 
 func (pl *List) Initialize(rng *rand.Rand) {
 	// Add a base platform
-	pl.AddPlatform(new(
+	pl.AddPlatform(New(
 		rng.Float64()*(logic.ScreenWidth-BaseCellsCount),
 		logic.ScreenHeight/2+logic.UnitSize/2,
 		BaseCellsCount,

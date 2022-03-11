@@ -25,6 +25,10 @@ type Core struct {
 	nextHeight   float64
 	eventManager *event.Manager
 
+	lastChestPlatform *platform.Platform
+
+	ChestPickedUp bool
+
 	BonusList *bonus.List
 	Stats     *Stats
 	Wave      *Wave
@@ -41,7 +45,9 @@ func NewCore() *Core {
 		nextHeight:   WaveIncreaseFrequencyHeightInterval,
 		eventManager: event.NewManager(),
 
-		BonusList: bonus.NewList(),
+		ChestPickedUp: true, // TODO: false !
+
+		BonusList: bonus.NewList(rng),
 		Stats:     NewStats(),
 		Wave:      NewWave(rng),
 		Platforms: platform.NewList(),
@@ -62,15 +68,15 @@ func (c *Core) Initialize() {
 func (c *Core) handlePlatformGeneration() {
 	p := c.Platforms.GetHighestPlatform()
 
-	missingRange := p.Y - c.Player.Y - logic.ScreenHeight
-	jumpv := utils.JumpVector(c.Player.JumpForce, 1)
+	missingRange := p.Y - c.Player.Y - logic.ScreenHeight/2
+	jumpv := utils.JumpVector(c.Stats.JumpForce, 1)
 	jumpv[0] *= c.Player.MoveSpeed
 	jumpv[1] *= c.Player.MoveSpeed
 	// Generate missing platforms in advance
 	for missingRange < 0 {
 		p = platform.Generate(c.rng, p, c.Stats.PlatformCellCount, jumpv)
 		c.Platforms.AddPlatform(p)
-		missingRange = p.Y - c.Player.Y - logic.ScreenHeight*2
+		missingRange = p.Y - c.Player.Y - logic.ScreenHeight/2
 	}
 }
 
@@ -78,7 +84,7 @@ func (c *Core) handleVelocity() {
 	// TODO: Or not grounded but double jump allowed
 	if c.Player.GroundedPlatform != nil && c.Player.IntentVector[1] == 1 {
 		c.Player.GroundedPlatform = nil
-		jv := utils.JumpVector(c.Player.JumpForce, c.Player.Orientation)
+		jv := utils.JumpVector(c.Stats.JumpForce, c.Player.Orientation)
 		c.Player.VelocityVector[0] = jv[0] * c.Player.MoveSpeed
 		c.Player.VelocityVector[1] = jv[1] * c.Player.MoveSpeed
 	}

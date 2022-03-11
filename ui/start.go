@@ -1,4 +1,4 @@
-package menu
+package ui
 
 const (
 	ActionNone = iota

@@ -8,7 +8,7 @@ import (
 )
 
 func (r *Renderer) RenderWave(screen *ebiten.Image, wave *core.Wave) {
-	vertices, indices := appendQuadVerticesIndices(
+	vertices, indices := AppendQuadVerticesIndices(
 		nil,
 		nil,
 		0, 0,

@@ -65,6 +65,7 @@ func (c *Core) handleEntities() {
 					case entity.ContactHeal1HP:
 						c.Player.AddHP(1)
 					case entity.ContactItem:
+						c.ChestPickedUp = true
 						// TODO: trigger a UI popup to pick a bonus
 					}
 				}
