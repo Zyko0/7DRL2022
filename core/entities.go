@@ -18,9 +18,15 @@ func (c *Core) spawnRandomEnemy() {
 		x = logic.ScreenWidth + w
 	}
 	y := c.Player.Y + (c.rng.Float64() * 8 * logic.UnitSize)
+
+	pathing := entity.PathingFollow
+	if c.rng.Intn(2) == 0 {
+		pathing = entity.PathingAnticipateY
+	}
+
 	enemy := entity.NewEnemy(x, y, w, h, entity.EnemySpec{
-		Pathing:       entity.PathingFollow,
-		MaxDistance:   entity.MaxDistanceMedium,
+		Pathing:       pathing,
+		MaxDistance:   entity.MaxDistanceShort,
 		MoveSpeed:     entity.DefaultEnemyMoveSpeed,
 		ContactDamage: entity.ContactDamage1HP,
 	})

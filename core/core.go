@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/Zyko0/7DRL2022/core/bonus"
 	"github.com/Zyko0/7DRL2022/core/entity"
 	"github.com/Zyko0/7DRL2022/core/event"
 	"github.com/Zyko0/7DRL2022/core/platform"
@@ -24,6 +25,8 @@ type Core struct {
 	nextHeight   float64
 	eventManager *event.Manager
 
+	BonusList *bonus.List
+	Stats     *Stats
 	Wave      *Wave
 	Platforms *platform.List
 	Entities  []entity.Entity
@@ -38,8 +41,11 @@ func NewCore() *Core {
 		nextHeight:   WaveIncreaseFrequencyHeightInterval,
 		eventManager: event.NewManager(),
 
+		BonusList: bonus.NewList(),
+		Stats:     NewStats(),
 		Wave:      NewWave(rng),
 		Platforms: platform.NewList(),
+		Entities:  []entity.Entity{},
 		Player:    NewPlayer(),
 	}
 }
@@ -157,7 +163,7 @@ func (c *Core) Update() {
 	c.handleEntities()
 
 	// Wave
-	c.Wave.Update(c.Player)
+	c.Wave.Update(c.Player, c.Stats.WaveHealMod)
 
 	// TODO: debug
 	if inpututil.IsKeyJustPressed(ebiten.KeyBackspace) {

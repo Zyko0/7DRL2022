@@ -4,6 +4,7 @@ const (
 	EntityChest = 0.
 	EntityEnemy = 1.
 	EntityAoe   = 2.
+	EntityHeart = 3.
 )
 
 type Contact byte

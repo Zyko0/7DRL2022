@@ -10,7 +10,7 @@ import (
 const (
 	DefaultMoveSpeed = 5
 	BaseJumpForce    = 2
-	PlayerMaxHP      = 3
+	PlayerMaxHP      = 10
 )
 
 type Player struct {
@@ -69,4 +69,15 @@ func (p *Player) Update() {
 		p.IntentVector[1] = -1
 		p.GroundedPlatform = nil
 	}
+}
+
+func (p *Player) AddHP(hp float64) {
+	nhp := p.HP + hp
+	if nhp > PlayerMaxHP {
+		nhp = PlayerMaxHP
+	} else if nhp < 0 {
+		nhp = 0
+	}
+
+	p.HP = hp
 }

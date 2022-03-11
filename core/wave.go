@@ -10,6 +10,7 @@ const (
 	WaveInitialGrowingRate = 1.0
 	WaveMaxGrowingRate     = 2.0 // TODO: (?)
 	WaveBaseHeight         = logic.ScreenHeight / 5
+	WaveDamageTick         = logic.TPS / 2
 )
 
 type Wave struct {
@@ -18,9 +19,10 @@ type Wave struct {
 	rate       float64
 	nextHeight float64
 
-	levels []float64
-	min    float64
-	max    float64
+	healing bool
+	levels  []float64
+	min     float64
+	max     float64
 }
 
 func NewWave(rng *rand.Rand) *Wave {
@@ -35,7 +37,8 @@ func NewWave(rng *rand.Rand) *Wave {
 		rate:       WaveInitialGrowingRate,
 		nextHeight: 0,
 
-		levels: levels,
+		healing: false,
+		levels:  levels,
 	}
 }
 
@@ -60,8 +63,16 @@ func (w *Wave) advanceLevels(maxAmount float64) {
 	w.max = max
 }
 
-func (w *Wave) Update(p *Player) {
-	if p.Y+p.Height/2 < w.levels[int(p.X/60)] {
+func (w *Wave) Update(p *Player, healingMod uint64) {
+	if healingMod > 0 {
+		w.healing = w.ticks%(healingMod*2) < healingMod
+	}
+	if w.ticks%WaveDamageTick == 0 && p.Y+p.Height/2 < w.levels[int(p.X/60)] {
+		dmg := 0.5
+		if w.healing {
+			dmg = -0.5
+		}
+		p.AddHP(dmg)
 		// TODO: take hp
 		return
 	}
@@ -82,4 +93,8 @@ func (w *Wave) GetLevels() []float64 {
 
 func (w *Wave) GetMinMaxLevels() (float64, float64) {
 	return w.min, w.max
+}
+
+func (w *Wave) Healing() bool {
+	return w.healing
 }

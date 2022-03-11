@@ -32,7 +32,7 @@ func sd(p vec2) float {
 }
 
 func colorize(y float) vec4 {
-	const opacity = 0.8
+	const opacity = 0.6
 
 	clr := mix(
 		vec4(1., 0.31, 0., 1.),
