@@ -4,10 +4,13 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/Zyko0/7DRL2022/core/entity"
 	"github.com/Zyko0/7DRL2022/core/event"
 	"github.com/Zyko0/7DRL2022/core/platform"
 	"github.com/Zyko0/7DRL2022/core/utils"
 	"github.com/Zyko0/7DRL2022/logic"
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 const (
@@ -23,6 +26,7 @@ type Core struct {
 
 	Wave      *Wave
 	Platforms *platform.List
+	Entities  []entity.Entity
 	Player    *Player
 }
 
@@ -136,6 +140,7 @@ func (c *Core) handleCollisions() {
 
 func (c *Core) Update() {
 	if c.Player.Y < 0 {
+		// TODO: this is game over
 		return
 	}
 
@@ -148,7 +153,14 @@ func (c *Core) Update() {
 	c.Player.Update()
 	c.handleVelocity()
 	c.handleCollisions()
+	// Entities
+	c.handleEntities()
 
 	// Wave
 	c.Wave.Update(c.Player)
+
+	// TODO: debug
+	if inpututil.IsKeyJustPressed(ebiten.KeyBackspace) {
+		c.spawnRandomEnemy()
+	}
 }

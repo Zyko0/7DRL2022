@@ -1,0 +1,8 @@
+package main
+
+// TODO: remove this com => handle enemies oscillating, rotating, chests, etc..
+// TODO: this is a sdf shader
+
+func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
+	return vec4(1.)
+}

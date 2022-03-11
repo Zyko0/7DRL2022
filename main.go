@@ -40,6 +40,7 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 	g.renderer.RenderBackground(screen)
 	g.renderer.RenderPlatforms(screen, g.core.Platforms)
+	g.renderer.RenderEntities(screen, g.core.Entities)
 	g.renderer.RenderPlayer(screen, g.core.Player)
 	g.renderer.RenderWave(screen, g.core.Wave)
 	// Debug

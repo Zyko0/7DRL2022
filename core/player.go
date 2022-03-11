@@ -10,6 +10,7 @@ import (
 const (
 	DefaultMoveSpeed = 5
 	BaseJumpForce    = 2
+	PlayerMaxHP      = 3
 )
 
 type Player struct {
@@ -18,7 +19,7 @@ type Player struct {
 	MoveSpeed     float64
 	JumpForce     float64
 
-	HP               uint
+	HP               float64
 	GroundedPlatform *platform.Platform
 	Orientation      float64
 	IntentVector     []float64
@@ -34,7 +35,7 @@ func NewPlayer() *Player {
 		MoveSpeed: DefaultMoveSpeed,
 		JumpForce: BaseJumpForce,
 
-		HP:               3,
+		HP:               PlayerMaxHP,
 		GroundedPlatform: nil,
 		Orientation:      0,
 		IntentVector:     []float64{0, 0},
@@ -61,7 +62,8 @@ func (p *Player) Update() {
 	if inpututil.IsKeyJustPressed(ebiten.KeyUp) {
 		p.Orientation = 0
 	}
-	if inpututil.IsKeyJustPressed(ebiten.KeyDown) {
+	// Special handling here as with low jump force, we want to allow hold down to fall through platforms
+	if ebiten.IsKeyPressed(ebiten.KeyDown) {
 		// Y++ required in order to detach from the current platform
 		p.Y--
 		p.IntentVector[1] = -1

@@ -10,6 +10,8 @@ const (
 	FallSpeed    = -1.
 	MaxFallSpeed = -logic.UnitSize + 1
 
+	MinJumpVelocity  = 0.5
+	MaxJumpVelocity  = 4.5
 	baseJumpVelocity = 3.
 )
 

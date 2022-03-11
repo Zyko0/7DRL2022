@@ -40,7 +40,7 @@ func NewWave(rng *rand.Rand) *Wave {
 }
 
 func (w *Wave) increaseGrowingRate() {
-	if w.rate > WaveMaxGrowingRate {
+	if w.rate < WaveMaxGrowingRate {
 		w.rate += 0.05
 	}
 }

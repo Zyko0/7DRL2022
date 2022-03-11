@@ -3,25 +3,21 @@ package event
 import "github.com/Zyko0/7DRL2022/logic"
 
 const (
-	tickWaveResetFrequency          = uint64(15 * logic.TPS)
+	tickWaveResetFrequency          = uint64(15 * logic.TPS) // TODO: not sure we want wave to reset
 	heightChestFrequency            = uint64(6500)
 	heightSpecialPlatformsFrequency = uint64(5000)
 )
 
-func tickEnemyFrequencyFromHeight(height float64) uint64 {
+func tickEnemyFrequencyFromTicks(ticks uint64) uint64 {
 	const (
 		maxFreq   = logic.TPS
-		minFreq   = logic.TPS * 10
-		incrEvery = 5000
+		minFreq   = 10 * logic.TPS
+		incrEvery = 30 * logic.TPS
 	)
+	return maxFreq
 
-	h := height - logic.ScreenHeight/2
-	if h <= 0 {
-		return minFreq
-	}
-
-	freq := uint64(minFreq - h/incrEvery*logic.TPS)
-	if freq > maxFreq {
+	freq := minFreq - ticks*logic.TPS/incrEvery
+	if freq < maxFreq {
 		return maxFreq
 	}
 
@@ -41,7 +37,7 @@ func tickAoeFrequencyFromHeight(height float64) uint64 {
 	}
 
 	freq := uint64(minFreq - h/incrEvery*logic.TPS)
-	if freq > maxFreq {
+	if freq < maxFreq {
 		return maxFreq
 	}
 
