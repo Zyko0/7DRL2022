@@ -3,6 +3,7 @@ package main
 var Levels [60]float
 var MinLevel float
 var MaxLevel float
+var ScreenSize vec2
 
 func colorize(y float) vec4 {
 	const opacity = 0.8
@@ -39,7 +40,7 @@ func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
 		t,
 	)
 
-	pos *= vec2(1920, 1080)
+	pos *= ScreenSize
 	if pos.y <= y { // Needs to be reversed
 		return colorize(pos.y/clamp(y, 0.01, MaxLevel))
 	}

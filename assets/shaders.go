@@ -17,11 +17,14 @@ var (
 	sdentityShaderSrc []byte
 	//go:embed shaders/player.kage
 	playerShaderSrc []byte
+	//go:embed shaders/background.kage
+	backgroundShaderSrc []byte
 
-	WaveShader     *ebiten.Shader
-	PlatformShader *ebiten.Shader
-	SDEntityShader *ebiten.Shader
-	PlayerShader   *ebiten.Shader
+	WaveShader       *ebiten.Shader
+	PlatformShader   *ebiten.Shader
+	SDEntityShader   *ebiten.Shader
+	PlayerShader     *ebiten.Shader
+	BackgroundShader *ebiten.Shader
 )
 
 func init() {
@@ -43,6 +46,11 @@ func init() {
 	}
 
 	PlayerShader, err = ebiten.NewShader(playerShaderSrc)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	BackgroundShader, err = ebiten.NewShader(backgroundShaderSrc)
 	if err != nil {
 		log.Fatal(err)
 	}

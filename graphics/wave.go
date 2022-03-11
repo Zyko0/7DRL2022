@@ -29,6 +29,9 @@ func (r *Renderer) RenderWave(screen *ebiten.Image, wave *core.Wave) {
 			"Levels":   uniforms,
 			"MinLevel": float32(min - r.cameraYOffset + logic.ScreenHeight/2),
 			"MaxLevel": float32(max - r.cameraYOffset + logic.ScreenHeight/2),
+			"ScreenSize": []float32{
+				logic.ScreenWidth, logic.ScreenHeight,
+			},
 		},
 	})
 }

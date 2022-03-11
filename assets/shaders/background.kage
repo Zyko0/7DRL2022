@@ -1,8 +1,63 @@
 package main
 
-// TODO: remove this com => handle enemies oscillating, rotating, chests, etc..
-// TODO: this is a sdf shader
+var CameraY float
+var ScreenSize vec2
+
+func hash(p vec2) float {
+	return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453)
+}
+
+func sdCircle(p, c vec2) float {
+	i := floor(p)
+    f := fract(p)
+	r := 0.5*hash(i+c)
+	
+	return length(f-c)-r
+}
+
+func smin(d0, d1 float) float {
+	const k = 0.01
+
+	h := clamp(0.5 + 0.5*(d1 - d0)/k, 0.0, 1.0)
+	return mix(d1, d0, h) - k * h * (1.0-h)
+}
+
+func sd(p vec2) float {
+	return smin(
+		smin(sdCircle(p, vec2(0., 0.)), sdCircle(p, vec2(0., 1.))),
+		smin(sdCircle(p, vec2(1., 0.)), sdCircle(p, vec2(1., 1.))),
+	)
+}
+
+func colorize(t float) vec3 {
+	t *= smoothstep(0., 1., t*2.)
+	clr := mix(
+		vec3(0.1, 0.1, 0.1),
+		vec3(0.27, 0.84, 0.17),
+		clamp(t, 0., 1.),
+	)
+	clr = mix(
+		clr,
+		vec3(0.99, 0.82, 0.),
+		clamp(t-0.25, 0., 1.),
+	)
+	
+	return clr
+}
 
 func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
-	return vec4(1.)
+	p := texCoord * 2. - 1.
+	p.y -= ((CameraY/ScreenSize.y)*2.-1.)
+	p.y = p.y / 16. * 9.
+
+	t := 10.+abs(position.y-CameraY)/1000.
+	d0 := abs(sd(vec2(p.x*t, p.y)))
+	d1 := abs(sd(vec2(p.x, p.y*t)))
+	
+	d := max(d0, d1) // banger
+
+	clr := colorize(d)
+	// clr = clr*clr*(3.-2.*clr)
+
+	return vec4(clr, 1.)
 }

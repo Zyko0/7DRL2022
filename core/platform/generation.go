@@ -35,7 +35,7 @@ func Generate(rng *rand.Rand, from *Platform, cellsCount int, v []float64) *Plat
 		minIteration++
 	}
 	// Find max iterations to be above previous platform
-	maxIteration := minIteration
+	maxIteration := minIteration+1
 	for sy > from.Y {
 		sx += vx
 		sy += vy
