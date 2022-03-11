@@ -64,17 +64,18 @@ func (w *Wave) advanceLevels(maxAmount float64) {
 }
 
 func (w *Wave) Update(p *Player, healingMod uint64) {
+	w.ticks++
+
 	if healingMod > 0 {
 		w.healing = w.ticks%(healingMod*2) < healingMod
 	}
 	if w.ticks%WaveDamageTick == 0 && p.Y+p.Height/2 < w.levels[int(p.X/60)] {
-		dmg := 0.5
+		dmg := -0.5
 		if w.healing {
-			dmg = -0.5
+			dmg = 0.5
 		}
 		p.AddHP(dmg)
-		// TODO: take hp
-		return
+		// TODO: Play tick sound
 	}
 
 	if p.Height > w.nextHeight {
@@ -83,8 +84,6 @@ func (w *Wave) Update(p *Player, healingMod uint64) {
 	}
 
 	w.advanceLevels(w.rate)
-
-	w.ticks++
 }
 
 func (w *Wave) GetLevels() []float64 {

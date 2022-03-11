@@ -79,5 +79,5 @@ func (p *Player) AddHP(hp float64) {
 		nhp = 0
 	}
 
-	p.HP = hp
+	p.HP = nhp
 }
