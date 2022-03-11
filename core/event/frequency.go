@@ -5,7 +5,6 @@ import "github.com/Zyko0/7DRL2022/logic"
 const (
 	tickWaveResetFrequency           = uint64(15 * logic.TPS) // TODO: not sure we want wave to reset
 	heightChestFrequency             = uint64(6000)
-	heightSpecialPlatformsFrequency  = uint64(5000)
 	heightPlatformReductionFrequency = uint64(10000)
 )
 
@@ -13,7 +12,7 @@ func tickEnemyFrequencyFromTicks(ticks uint64) uint64 {
 	const (
 		maxFreq   = logic.TPS
 		minFreq   = 10 * logic.TPS
-		incrEvery = 15 * logic.TPS
+		incrEvery = 10 * logic.TPS
 	)
 
 	freq := minFreq - int64(ticks)*logic.TPS/incrEvery

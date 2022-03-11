@@ -70,5 +70,5 @@ func Generate(rng *rand.Rand, from *Platform, cellsCount int, v []float64) *Plat
 		sided = sign
 	}
 
-	return New(startX, startY, cellsCount, sided)
+	return New(startX, startY, cellsCount, sided, true)
 }

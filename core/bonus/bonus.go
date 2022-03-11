@@ -9,6 +9,10 @@ type Bonus byte
 const (
 	BonusNone Bonus = iota
 	BonusWaveHeal
+	BonusWaveHeal2
+	BonusWaveHeal3
+	BonusWaveHeal4
+	BonusWaveHeal5
 	BonusAirControl
 	BonusCrossBoundaries
 	BonusSpawnHearts
@@ -21,10 +25,6 @@ const (
 
 var (
 	primaries = []Bonus{
-		BonusWaveHeal,
-		BonusWaveHeal,
-		BonusWaveHeal,
-		BonusWaveHeal,
 		BonusWaveHeal,
 		BonusAirControl,
 		BonusSpawnHearts,
@@ -91,5 +91,13 @@ func (bl *List) Consume(b Bonus) {
 		bl.secondaries = append(bl.secondaries, BonusStrongerJump)
 	case BonusStrongerJump:
 		bl.secondaries = append(bl.secondaries, BonusWeakerJump)
+	case BonusWaveHeal:
+		bl.primaries = append(bl.primaries, BonusWaveHeal2)
+	case BonusWaveHeal2:
+		bl.primaries = append(bl.primaries, BonusWaveHeal3)
+	case BonusWaveHeal3:
+		bl.primaries = append(bl.primaries, BonusWaveHeal4)
+	case BonusWaveHeal4:
+		bl.primaries = append(bl.primaries, BonusWaveHeal5)
 	}
 }

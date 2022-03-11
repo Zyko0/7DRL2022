@@ -14,7 +14,6 @@ type Manager struct {
 	lastWaveResetTick uint64
 
 	lastChestHeight             uint64
-	lastSpecialPlatformsHeight  uint64
 	lastPlatformReductionHeight uint64
 }
 
@@ -28,8 +27,7 @@ func NewManager() *Manager {
 		lastEnemyTick:     0,
 		lastWaveResetTick: 0,
 
-		lastChestHeight:            0,
-		lastSpecialPlatformsHeight: 0,
+		lastChestHeight: 0,
 	}
 }
 
@@ -74,15 +72,6 @@ func (m *Manager) Update(height float64) {
 			m.events = append(m.events, KindChestSpawn)
 			// Here we want to abort as there will be specific platforms above chest
 			return
-		}
-	}
-
-	// Special platforms
-	const minSpecialPlatformsHeight = 15000
-	if h := uint64(m.height - minSpecialPlatformsHeight); h > 0 {
-		if uint64(m.height) >= m.lastSpecialPlatformsHeight+heightSpecialPlatformsFrequency {
-			m.lastSpecialPlatformsHeight = uint64(m.height)
-			m.events = append(m.events, KindSpecialPlatforms)
 		}
 	}
 

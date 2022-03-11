@@ -3,6 +3,7 @@ package main
 var Levels [60]float
 var MinLevel float
 var MaxLevel float
+var Healing float
 var ScreenSize vec2
 
 func hash(p vec2) float {
@@ -34,14 +35,19 @@ func sd(p vec2) float {
 func colorize(y float) vec4 {
 	const opacity = 0.6
 
+	dominant :=	vec4(1., 0.31, 0., 1.)
+	if Healing >= 1 {
+		dominant = vec4(0.3, 0.3, 1., 1.)
+	}
+
 	clr := mix(
-		vec4(1., 0.31, 0., 1.),
+		dominant,
 		vec4(1., 0.68, 0., 1.),
 		smoothstep(0., 1., y),
 	)
 	clr = mix(
 		clr,
-		vec4(1., 0.31, 0., 1.),
+		dominant,
 		y*y*(3.-2.*y),
 	)
 	clr = clr*clr*(3.-2.*clr)

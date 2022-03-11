@@ -23,12 +23,18 @@ func (r *Renderer) RenderWave(screen *ebiten.Image, wave *core.Wave) {
 		uniforms[i] = float32(levels[i] - r.cameraYOffset + logic.ScreenHeight/2)
 	}
 
+	healing := float32(0)
+	if wave.Healing() {
+		healing = 1.5
+	}
+
 	min, max := wave.GetMinMaxLevels()
 	screen.DrawTrianglesShader(vertices, indices, assets.WaveShader, &ebiten.DrawTrianglesShaderOptions{
 		Uniforms: map[string]interface{}{
 			"Levels":   uniforms,
 			"MinLevel": float32(min - r.cameraYOffset + logic.ScreenHeight/2),
 			"MaxLevel": float32(max - r.cameraYOffset + logic.ScreenHeight/2),
+			"Healing":  healing,
 			"ScreenSize": []float32{
 				logic.ScreenWidth, logic.ScreenHeight,
 			},

@@ -56,6 +56,10 @@ func (g *Game) Update() error {
 		}
 		// If the view is not active anymore, check for selection
 		b := g.bonusView.Bonuses[g.bonusView.SelectedIndex]
+		// If we alter the player's jump let's tell core (weak way to do it but let's rush)
+		if b == bonus.BonusStrongerJump || b == bonus.BonusWeakerJump {
+			g.core.TriggerChestPlatformWave()
+		}
 		// Otherwise pick augment
 		g.core.BonusList.Consume(b)
 		g.core.Stats.ApplyBonus(b)
@@ -81,7 +85,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.renderer.RenderPlayer(screen, g.core.Player)
 	g.renderer.RenderWave(screen, g.core.Wave)
 	g.renderer.RenderHUD(screen, g.core.Player.HP, uint64(g.core.Player.Height))
-	// Main menu view with background demo
+	// Bonus view
 	if g.bonusView.Active() {
 		g.bonusView.Draw(screen)
 		return

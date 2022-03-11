@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	MinCellsCount  = 2
+	MinCellsCount  = 1
 	BaseCellsCount = 4
 )
 
@@ -18,9 +18,10 @@ type Platform struct {
 	X, Y       float64
 	CellsCount int
 	Width      float64
+	Crossable  bool
 }
 
-func New(x, y float64, cellsCount int, sided float64) *Platform {
+func New(x, y float64, cellsCount int, sided float64, crossable bool) *Platform {
 	return &Platform{
 		sided: sided,
 
@@ -28,5 +29,6 @@ func New(x, y float64, cellsCount int, sided float64) *Platform {
 		Y:          y,
 		CellsCount: cellsCount,
 		Width:      float64(cellsCount) * logic.UnitSize,
+		Crossable:  crossable,
 	}
 }

@@ -61,7 +61,7 @@ func (p *Player) Update() {
 		p.Orientation = 0
 	}
 	// Special handling here as with low jump force, we want to allow hold down to fall through platforms
-	if ebiten.IsKeyPressed(ebiten.KeyDown) {
+	if pl := p.GroundedPlatform; pl != nil && pl.Crossable && ebiten.IsKeyPressed(ebiten.KeyDown) { // TODO: should not check this here but whatever
 		// Y++ required in order to detach from the current platform
 		p.Y--
 		p.IntentVector[1] = -1

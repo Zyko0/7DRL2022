@@ -45,7 +45,7 @@ func NewCore() *Core {
 		nextHeight:   WaveIncreaseFrequencyHeightInterval,
 		eventManager: event.NewManager(),
 
-		ChestPickedUp: true, // TODO: false !
+		ChestPickedUp: false,
 
 		BonusList: bonus.NewList(rng),
 		Stats:     NewStats(),
@@ -63,6 +63,13 @@ func (c *Core) Initialize() {
 	c.Player.X = p.X - logic.UnitSize/2
 	c.Player.Y = p.Y + logic.UnitSize/2 + c.Player.Height/2
 	c.Player.GroundedPlatform = p
+}
+
+func (c *Core) TriggerChestPlatformWave() {
+	c.lastChestPlatform.Width = logic.ScreenWidth
+	c.lastChestPlatform.X = logic.ScreenWidth / 2
+	c.lastChestPlatform.Crossable = false
+	c.Wave.reach(c.Player.Y - logic.ScreenHeight/2)
 }
 
 func (c *Core) handlePlatformGeneration() {

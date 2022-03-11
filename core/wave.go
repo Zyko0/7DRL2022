@@ -63,6 +63,15 @@ func (w *Wave) advanceLevels(maxAmount float64) {
 	w.max = max
 }
 
+func (w *Wave) reach(y float64) {
+	diff := y - w.max
+	if diff > 0 {
+		for i := range w.levels {
+			w.levels[i] += diff
+		}
+	}
+}
+
 func (w *Wave) Update(p *Player, healingMod uint64) {
 	w.ticks++
 
