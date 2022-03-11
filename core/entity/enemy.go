@@ -97,7 +97,11 @@ func (e *Enemy) Update(px, py float64) {
 		vy = py - e.y
 	case PathingAnticipateY:
 		vx = px - e.x
-		vy = py + (logic.UnitSize * 2) - e.y
+		vy = py + (logic.UnitSize * 4) - e.y
+		// Edge case if already close to same X axis
+		if math.Abs(vx) <= 10. {
+			vy = py - e.y
+		}
 	}
 	length := math.Sqrt(vx*vx + vy*vy)
 	e.x = e.x + vx/length*e.moveSpeed

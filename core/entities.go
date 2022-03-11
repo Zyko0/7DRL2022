@@ -17,7 +17,7 @@ func (c *Core) spawnRandomEnemy() {
 	if c.Player.X < logic.ScreenWidth/2 {
 		x = logic.ScreenWidth + w
 	}
-	y := c.Player.Y + (c.rng.Float64()*4*logic.UnitSize - logic.UnitSize*2)
+	y := c.Player.Y + (c.rng.Float64() * 8 * logic.UnitSize)
 	enemy := entity.NewEnemy(x, y, w, h, entity.EnemySpec{
 		Pathing:       entity.PathingFollow,
 		MaxDistance:   entity.MaxDistanceMedium,

@@ -12,16 +12,15 @@ func tickEnemyFrequencyFromTicks(ticks uint64) uint64 {
 	const (
 		maxFreq   = logic.TPS
 		minFreq   = 10 * logic.TPS
-		incrEvery = 30 * logic.TPS
+		incrEvery = 20 * logic.TPS
 	)
-	return maxFreq
 
-	freq := minFreq - ticks*logic.TPS/incrEvery
+	freq := minFreq - int64(ticks)*logic.TPS/incrEvery
 	if freq < maxFreq {
 		return maxFreq
 	}
 
-	return freq
+	return uint64(freq)
 }
 
 func tickAoeFrequencyFromHeight(height float64) uint64 {

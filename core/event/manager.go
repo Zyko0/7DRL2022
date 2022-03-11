@@ -1,6 +1,8 @@
 package event
 
-import "github.com/Zyko0/7DRL2022/logic"
+import (
+	"github.com/Zyko0/7DRL2022/logic"
+)
 
 type Manager struct {
 	ticks  uint64
@@ -38,16 +40,18 @@ func (m *Manager) Update(height float64) {
 
 	// Aoe
 	const minAoeSpawnTick = 120 * logic.TPS
-	freq := tickAoeFrequencyFromHeight(m.height - minAoeSpawnTick)
-	if m.ticks >= m.lastAoeTick+freq {
-		m.lastAoeTick = m.ticks
-		m.events = append(m.events, KindAoeSpawn)
+	if m.ticks > minAoeSpawnTick {
+		freq := tickAoeFrequencyFromHeight(m.height - minAoeSpawnTick)
+		if m.ticks >= m.lastAoeTick+freq {
+			m.lastAoeTick = m.ticks
+			m.events = append(m.events, KindAoeSpawn)
+		}
 	}
 
 	// Enemies
 	const minEnemySpawnTick = 60 * logic.TPS
 	// TODO: if m.ticks > minEnemySpawnTick
-	freq = tickEnemyFrequencyFromTicks(m.ticks)
+	freq := tickEnemyFrequencyFromTicks(m.ticks)
 	if m.ticks >= m.lastEnemyTick+freq {
 		m.lastEnemyTick = m.ticks
 		m.events = append(m.events, KindEnemySpawn)

@@ -5,6 +5,32 @@ var MinLevel float
 var MaxLevel float
 var ScreenSize vec2
 
+func hash(p vec2) float {
+	return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453)
+}
+
+func sdCircle(p, c vec2) float {
+	i := floor(p)
+    f := fract(p)
+	r := 0.5*hash(i+c)
+	
+	return length(f-c)-r
+}
+
+func smin(d0, d1 float) float {
+	const k = 0.9
+
+	h := clamp(0.5 + 0.5*(d1 - d0)/k, 0.0, 1.0)
+	return mix(d1, d0, h) - k * h * (1.0-h)
+}
+
+func sd(p vec2) float {
+	return smin(
+		smin(sdCircle(p, vec2(0., 0.)), sdCircle(p, vec2(0., 1.))),
+		smin(sdCircle(p, vec2(1., 0.)), sdCircle(p, vec2(1., 1.))),
+	)
+}
+
 func colorize(y float) vec4 {
 	const opacity = 0.8
 
@@ -42,7 +68,13 @@ func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
 
 	pos *= ScreenSize
 	if pos.y <= y { // Needs to be reversed
-		return colorize(pos.y/clamp(y, 0.01, MaxLevel))
+		return colorize(
+			abs(
+				sd(
+					(position.xy+vec2(0, y))/ScreenSize.xy*20.,
+				),
+			),
+		)
 	}
 
 	return vec4(0.)
