@@ -74,6 +74,15 @@ func (m *Manager) Update(height float64) {
 			m.events = append(m.events, KindReducePlatformWidth)
 		}
 	}
+
+	// Enemy Upgrade
+	const minEnemyUpgradeHeight = 15000
+	if h := uint64(m.height - minEnemyUpgradeHeight); h > 0 {
+		if uint64(m.height) >= m.lastPlatformReductionHeight+heightEnemyUpgradeFrequency {
+			m.lastPlatformReductionHeight = uint64(m.height)
+			m.events = append(m.events, KindEnemyUpgrade)
+		}
+	}
 }
 
 func (m *Manager) ConsumeEvent() Kind {

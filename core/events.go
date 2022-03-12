@@ -24,7 +24,8 @@ func (c *Core) handleEvents() {
 			jumpv[1] *= c.Player.MoveSpeed
 			// Generate missing platforms in advance
 			for missingRange < 0 {
-				p = platform.New(p.X, p.Y+logic.UnitSize*4, c.Stats.PlatformCellCount, 0., true)
+				count := c.Stats.PlatformCellCount + c.rng.Intn(platform.BaseCellsCount-c.Stats.PlatformCellCount+1)
+				p = platform.New(p.X, p.Y+logic.UnitSize*4, count, 0., true)
 				c.Platforms.AddPlatform(p)
 				missingRange = p.Y - c.Player.Y - logic.ScreenHeight*1.5
 			}
