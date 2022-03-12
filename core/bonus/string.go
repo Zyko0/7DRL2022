@@ -24,7 +24,7 @@ func (b Bonus) String() string {
 		return "Stronger Jump"
 	case BonusWeakerJump:
 		return "Weaker Jump"
-	case BonusShield:
+	/*case BonusShield:
 		return "Shield"
 	case BonusShield2:
 		return "Shield 2"
@@ -33,7 +33,7 @@ func (b Bonus) String() string {
 	case BonusShield4:
 		return "Shield 4"
 	case BonusShield5:
-		return "Shield 5"
+		return "Shield 5"*/
 	case BonusAutoCheckpoint:
 		return "Auto Checkpoint"
 	case BonusAutoCheckpoint2:
@@ -69,7 +69,7 @@ func (b Bonus) Description() string {
 		return "Jump higher + trigger checkpoint"
 	case BonusWeakerJump:
 		return "Jump lower + trigger checkpoint"
-	case BonusShield:
+	/*case BonusShield:
 		return "Shield refreshing"
 	case BonusShield2:
 		return "Shield refreshing faster"
@@ -78,7 +78,7 @@ func (b Bonus) Description() string {
 	case BonusShield4:
 		return "Shield refreshing even faster"
 	case BonusShield5:
-		return "Shield refreshing even faster"
+		return "Shield refreshing even faster"*/
 	case BonusAutoCheckpoint:
 		return "Trigger checkpoint periodically"
 	case BonusAutoCheckpoint2:
