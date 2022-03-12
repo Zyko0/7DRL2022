@@ -59,16 +59,16 @@ func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
 	pos := texCoord
 	pos.y = 1.-pos.y
 
-	index := int(floor(pos.x*60.))
+	index := floor(pos.x*60.)
 	t := mod(pos.x*60., 1.)
 	y := mix(
-		Levels[clamp(index-1, 0, 59)],
-		Levels[index],
-		1-t,
+		Levels[int(clamp(index-1., 0., 59.))],
+		Levels[int(index)],
+		1.-t,
 	)
 	y = mix(
 		y,
-		Levels[clamp(index+1, 0, 59)],
+		Levels[int(clamp(index+1., 0., 59.))],
 		t,
 	)
 
