@@ -1,8 +1,13 @@
 package graphics
 
 import (
+	"strconv"
+
+	"github.com/Zyko0/7DRL2022/assets"
 	"github.com/Zyko0/7DRL2022/core"
+	"github.com/Zyko0/7DRL2022/logic"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
 )
 
 func (r *Renderer) drawHPBar(screen *ebiten.Image, hp float64) {
@@ -32,6 +37,20 @@ func (r *Renderer) drawHPBar(screen *ebiten.Image, hp float64) {
 	screen.DrawTriangles(vertices, indices, brushImage, nil)
 }
 
+func (r *Renderer) renderScore(screen *ebiten.Image, score uint64) {
+	str := strconv.FormatUint(score, 10)
+	rect := text.BoundString(assets.ScoreFontFace, str)
+	geom := ebiten.GeoM{}
+	geom.Translate(
+		float64(logic.ScreenWidth/2)-float64(rect.Max.X)/2,
+		float64(50)+float64(rect.Max.Y)/2,
+	)
+	text.DrawWithOptions(screen, str, assets.ScoreFontFace, &ebiten.DrawImageOptions{
+		GeoM: geom,
+	})
+}
+
 func (r *Renderer) RenderHUD(screen *ebiten.Image, hp float64, score uint64) {
 	r.drawHPBar(screen, hp)
+	r.renderScore(screen, score)
 }

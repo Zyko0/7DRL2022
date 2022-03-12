@@ -10,7 +10,6 @@ import (
 	"github.com/Zyko0/7DRL2022/logic"
 	"github.com/Zyko0/7DRL2022/ui"
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
@@ -84,22 +83,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.renderer.RenderEntities(screen, g.core.Entities)
 	g.renderer.RenderPlayer(screen, g.core.Player)
 	g.renderer.RenderWave(screen, g.core.Wave)
-	g.renderer.RenderHUD(screen, g.core.Player.HP, uint64(g.core.Player.Height))
+	g.renderer.RenderHUD(screen, g.core.Player.HP, uint64(g.core.Player.Y))
 	// Bonus view
 	if g.bonusView.Active() {
 		g.bonusView.Draw(screen)
 		return
 	}
-	// Debug
-	ebitenutil.DebugPrint(
-		screen,
-		fmt.Sprintf("TPS: %0.2f - FPS %.02f PlayerPos [%.2f, %.2f] - Platforms %d",
-			ebiten.CurrentTPS(),
-			ebiten.CurrentFPS(),
-			g.core.Player.X, g.core.Player.Y,
-			g.core.Platforms.Count(),
-		),
-	)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
@@ -107,7 +96,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func main() {
-	ebiten.SetFPSMode(ebiten.FPSModeVsyncOffMaximum) // TODO: vsync on
+	ebiten.SetFPSMode(ebiten.FPSModeVsyncOn)
 	ebiten.SetMaxTPS(logic.TPS)
 	ebiten.SetFullscreen(true)
 	ebiten.SetCursorMode(ebiten.CursorModeCaptured)

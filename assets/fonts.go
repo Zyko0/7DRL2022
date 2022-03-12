@@ -5,11 +5,11 @@ import (
 
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font"
-	"golang.org/x/image/font/gofont/gomono"
 	"golang.org/x/image/font/gofont/gomonobold"
 )
 
 var (
+	ScoreFontFace         font.Face
 	CardTitleFontFace     font.Face
 	CardBodyTitleFontFace font.Face
 	CardBodyTextFontFace  font.Face
@@ -20,22 +20,18 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	ScoreFontFace = truetype.NewFace(pfont, &truetype.Options{
+		Size: 36,
+	})
+
 	CardTitleFontFace = truetype.NewFace(pfont, &truetype.Options{
 		Size: 24,
 	})
 
-	pfont, err = truetype.Parse(gomonobold.TTF)
-	if err != nil {
-		log.Fatal(err)
-	}
 	CardBodyTitleFontFace = truetype.NewFace(pfont, &truetype.Options{
 		Size: 16,
 	})
 
-	pfont, err = truetype.Parse(gomono.TTF)
-	if err != nil {
-		log.Fatal(err)
-	}
 	CardBodyTextFontFace = truetype.NewFace(pfont, &truetype.Options{
 		Size: 12,
 	})
