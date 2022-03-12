@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/Zyko0/7DRL2022/core"
@@ -35,11 +34,6 @@ func New() *Game {
 }
 
 func (g *Game) Update() error {
-	// TODO: remove
-	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
-		return errors.New("quit")
-	}
-
 	// Reset game
 	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
 		g.core = core.NewCore()
