@@ -27,8 +27,8 @@ func (c *Core) spawnRandomEnemy() {
 
 	enemy := entity.NewEnemy(x, y, w, h, entity.EnemySpec{
 		Pathing:       pathing,
-		MaxDistance:   entity.MaxDistanceShort,
-		MoveSpeed:     entity.DefaultEnemyMoveSpeed,
+		MaxDistance:   byte(c.rng.Intn(int(c.Stats.MaxEnemyDistance + 1))),
+		MoveSpeed:     c.Stats.EnemyMoveSpeed,
 		ContactDamage: entity.ContactDamage1HP,
 	})
 

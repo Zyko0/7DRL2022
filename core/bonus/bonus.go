@@ -46,7 +46,6 @@ var (
 		BonusStrongerJump,
 		BonusStrongerJump,
 		BonusStrongerJump,
-		BonusStrongerJump,
 		BonusWeakerJump,
 		BonusWeakerJump,
 		BonusWeakerJump,

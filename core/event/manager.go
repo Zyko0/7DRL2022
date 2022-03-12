@@ -9,11 +9,13 @@ type Manager struct {
 	height float64
 	events []Kind
 
-	lastAoeTick       uint64
-	lastEnemyTick     uint64
+	lastAoeTick   uint64
+	lastEnemyTick uint64
 
 	lastChestHeight             uint64
 	lastPlatformReductionHeight uint64
+	lastEnemyUpgradeHeight      uint64
+	lastEnemyFasterHeight       uint64
 }
 
 func NewManager() *Manager {
@@ -22,8 +24,8 @@ func NewManager() *Manager {
 		height: 0,
 		events: make([]Kind, 0),
 
-		lastAoeTick:       0,
-		lastEnemyTick:     0,
+		lastAoeTick:   0,
+		lastEnemyTick: 0,
 
 		lastChestHeight: 0,
 	}
@@ -71,7 +73,7 @@ func (m *Manager) Update(height float64) {
 	if h := uint64(m.height - minReducePlatformWidthHeight); h > 0 {
 		if uint64(m.height) >= m.lastPlatformReductionHeight+heightPlatformReductionFrequency {
 			m.lastPlatformReductionHeight = uint64(m.height)
-			m.events = append(m.events, KindReducePlatformWidth)
+			m.events = append(m.events, KindReduceMaxPlatformWidth)
 		}
 	}
 
@@ -79,8 +81,17 @@ func (m *Manager) Update(height float64) {
 	const minEnemyUpgradeHeight = 15000
 	if h := uint64(m.height - minEnemyUpgradeHeight); h > 0 {
 		if uint64(m.height) >= m.lastPlatformReductionHeight+heightEnemyUpgradeFrequency {
-			m.lastPlatformReductionHeight = uint64(m.height)
+			m.lastEnemyUpgradeHeight = uint64(m.height)
 			m.events = append(m.events, KindEnemyUpgrade)
+		}
+	}
+
+	// Enemy Faster
+	const minEnemyFasterHeight = 20000
+	if h := uint64(m.height - minEnemyFasterHeight); h > 0 {
+		if uint64(m.height) >= m.lastPlatformReductionHeight+heightEnemyFasterFrequency {
+			m.lastEnemyFasterHeight = uint64(m.height)
+			m.events = append(m.events, KindEnemyFaster)
 		}
 	}
 }

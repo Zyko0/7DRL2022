@@ -6,10 +6,8 @@ const (
 	KindNone Kind = iota
 	KindAoeSpawn
 	KindEnemySpawn
-	KindWaveReset
 	KindChestSpawn
-	KindSpecialPlatforms
-	KindReducePlatformWidth
+	KindReduceMaxPlatformWidth
 	KindEnemyUpgrade
 	KindEnemyFaster
 )

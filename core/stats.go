@@ -2,6 +2,7 @@ package core
 
 import (
 	"github.com/Zyko0/7DRL2022/core/bonus"
+	"github.com/Zyko0/7DRL2022/core/entity"
 	"github.com/Zyko0/7DRL2022/core/platform"
 	"github.com/Zyko0/7DRL2022/logic"
 )
@@ -13,6 +14,8 @@ type Stats struct {
 	EventPlatformsCount int
 	JumpForce           float64
 	WaveHealMod         uint64
+	EnemyMoveSpeed   float64
+	MaxEnemyDistance    byte
 }
 
 func NewStats() *Stats {
@@ -23,6 +26,8 @@ func NewStats() *Stats {
 		EventPlatformsCount: 4,
 		JumpForce:           BaseJumpForce,
 		WaveHealMod:         0,
+		EnemyMoveSpeed:   entity.MinEnemyMoveSpeed,
+		MaxEnemyDistance:    entity.MaxDistanceShort,
 	}
 }
 

@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	DefaultEnemyMoveSpeed = 4
+	MinEnemyMoveSpeed = 4
+	MaxEnemyMoveSpeed = 8
 )
 
 const (
@@ -76,7 +77,7 @@ func (e *Enemy) Update(px, py float64) {
 		dist := math.Sqrt((e.x-px)*(e.x-px) + (e.y-py)*(e.y-py))
 		switch e.maxDist {
 		case MaxDistanceShort:
-			dist *= 1.
+			dist *= 1.25
 		case MaxDistanceMedium:
 			dist *= 1.5
 		case MaxDistanceLong:

@@ -6,12 +6,12 @@ const (
 	heightChestFrequency             = uint64(6000)
 	heightPlatformReductionFrequency = uint64(10000)
 	heightEnemyUpgradeFrequency      = uint64(15000)
-	heightEnemyFasterFrequency       = uint64(20000)
+	heightEnemyFasterFrequency       = uint64(15000)
 )
 
 func tickEnemyFrequencyFromTicks(ticks uint64) uint64 {
 	const (
-		maxFreq   = logic.TPS
+		maxFreq   = logic.TPS / 2
 		minFreq   = 10 * logic.TPS
 		incrEvery = 10 * logic.TPS
 	)

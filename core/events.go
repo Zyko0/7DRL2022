@@ -1,6 +1,7 @@
 package core
 
 import (
+	"github.com/Zyko0/7DRL2022/core/entity"
 	"github.com/Zyko0/7DRL2022/core/event"
 	"github.com/Zyko0/7DRL2022/core/platform"
 	"github.com/Zyko0/7DRL2022/core/utils"
@@ -29,12 +30,18 @@ func (c *Core) handleEvents() {
 				c.Platforms.AddPlatform(p)
 				missingRange = p.Y - c.Player.Y - logic.ScreenHeight*1.5
 			}
-		case event.KindWaveReset:
-		case event.KindSpecialPlatforms:
-		case event.KindReducePlatformWidth:
+		case event.KindReduceMaxPlatformWidth:
 			c.Stats.PlatformCellCount--
 			if c.Stats.PlatformCellCount < platform.MinCellsCount {
 				c.Stats.PlatformCellCount = platform.MinCellsCount
+			}
+		case event.KindEnemyUpgrade:
+			if c.Stats.MaxEnemyDistance < entity.MaxDistanceVeryLong {
+				c.Stats.MaxEnemyDistance++
+			}
+		case event.KindEnemyFaster:
+			if c.Stats.EnemyMoveSpeed < entity.MaxEnemyMoveSpeed {
+				c.Stats.EnemyMoveSpeed += 0.5
 			}
 		default:
 		}
