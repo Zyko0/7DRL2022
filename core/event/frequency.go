@@ -3,9 +3,10 @@ package event
 import "github.com/Zyko0/7DRL2022/logic"
 
 const (
-	tickWaveResetFrequency           = uint64(15 * logic.TPS) // TODO: not sure we want wave to reset
 	heightChestFrequency             = uint64(6000)
 	heightPlatformReductionFrequency = uint64(10000)
+	heightEnemyUpgradeFrequency      = uint64(15000)
+	heightEnemyFasterFrequency       = uint64(20000)
 )
 
 func tickEnemyFrequencyFromTicks(ticks uint64) uint64 {

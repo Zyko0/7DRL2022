@@ -44,7 +44,7 @@ func Generate(rng *rand.Rand, from *Platform, cellsCount int, v []float64) *Plat
 	}
 	// Pick an iteration
 	// TODO: -8 to avoid too much proximity => Need some tuning maybe
-	iteration := minIteration + (rng.Intn(maxIteration - minIteration - 8))
+	iteration := minIteration + (rng.Intn(maxIteration-minIteration) / 2)
 	vy = v[1]
 	for i := 0; i <= iteration; i++ {
 		startX += vx

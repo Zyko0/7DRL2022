@@ -10,4 +10,6 @@ const (
 	KindChestSpawn
 	KindSpecialPlatforms
 	KindReducePlatformWidth
+	KindEnemyUpgrade
+	KindEnemyFaster
 )

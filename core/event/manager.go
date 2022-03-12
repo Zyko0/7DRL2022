@@ -11,7 +11,6 @@ type Manager struct {
 
 	lastAoeTick       uint64
 	lastEnemyTick     uint64
-	lastWaveResetTick uint64
 
 	lastChestHeight             uint64
 	lastPlatformReductionHeight uint64
@@ -25,7 +24,6 @@ func NewManager() *Manager {
 
 		lastAoeTick:       0,
 		lastEnemyTick:     0,
-		lastWaveResetTick: 0,
 
 		lastChestHeight: 0,
 	}
@@ -55,13 +53,6 @@ func (m *Manager) Update(height float64) {
 			m.lastEnemyTick = m.ticks
 			m.events = append(m.events, KindEnemySpawn)
 		}
-	}
-
-	// Wave reset
-	freq := tickWaveResetFrequency
-	if m.ticks >= m.lastWaveResetTick+freq {
-		m.lastWaveResetTick = m.ticks
-		m.events = append(m.events, KindWaveReset)
 	}
 
 	// Chest

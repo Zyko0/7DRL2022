@@ -21,6 +21,14 @@ const (
 
 	BonusStrongerJump
 	BonusWeakerJump
+	BonusShield // TODO: shield with cd to cancel a collision
+	BonusShield2
+	BonusShield3
+	BonusShield4
+	BonusShield5
+	BonusAutoCheckpoint // TODO: auto creating checkpoints every X ticks on current platform
+	BonusAutoCheckpoint2
+	BonusAutoCheckpoint3
 )
 
 var (
@@ -29,6 +37,8 @@ var (
 		BonusAirControl,
 		BonusSpawnHearts,
 		BonusCrossBoundaries,
+		BonusShield,
+		BonusAutoCheckpoint,
 	}
 
 	secondaries = []Bonus{
@@ -99,5 +109,17 @@ func (bl *List) Consume(b Bonus) {
 		bl.primaries = append(bl.primaries, BonusWaveHeal4)
 	case BonusWaveHeal4:
 		bl.primaries = append(bl.primaries, BonusWaveHeal5)
+	case BonusShield:
+		bl.primaries = append(bl.primaries, BonusShield2)
+	case BonusShield2:
+		bl.primaries = append(bl.primaries, BonusShield3)
+	case BonusShield3:
+		bl.primaries = append(bl.primaries, BonusShield4)
+	case BonusShield4:
+		bl.primaries = append(bl.primaries, BonusShield5)
+	case BonusAutoCheckpoint:
+		bl.primaries = append(bl.primaries, BonusAutoCheckpoint2)
+	case BonusAutoCheckpoint2:
+		bl.primaries = append(bl.primaries, BonusAutoCheckpoint3)
 	}
 }
