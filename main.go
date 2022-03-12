@@ -17,7 +17,8 @@ type Game struct {
 	core     *core.Core
 	renderer *graphics.Renderer
 
-	bonusView *ui.BonusView
+	bonusView    *ui.BonusView
+	gameOverView *ui.GameoverView
 }
 
 func New() *Game {
@@ -28,7 +29,8 @@ func New() *Game {
 		core:     c,
 		renderer: graphics.NewRenderer(),
 
-		bonusView: ui.NewBonusView(),
+		bonusView:    ui.NewBonusView(),
+		gameOverView: ui.NewGameoverView(),
 	}
 }
 
@@ -38,6 +40,17 @@ func (g *Game) Update() error {
 		return errors.New("quit")
 	}
 
+	// Reset game
+	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
+		g.core = core.NewCore()
+		g.core.Initialize()
+		g.bonusView.Reset()
+	}
+	// Gameover view having checked for a restart
+	g.gameOverView.Update(g.core.IsGameOver(), g.core.GetBestHeight())
+	if g.gameOverView.Active() {
+		return nil
+	}
 	// If needs an augment selection but the view is not active yet, roll, activate and abort
 	if g.core.ChestPickedUp {
 		if !g.bonusView.Active() {
@@ -66,11 +79,6 @@ func (g *Game) Update() error {
 		g.bonusView.Reset()
 	}
 
-	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
-		g.core = core.NewCore()
-		g.core.Initialize()
-	}
-
 	g.core.Update()
 	g.renderer.Update(g.core.Player.Y)
 
@@ -83,7 +91,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.renderer.RenderEntities(screen, g.core.Entities)
 	g.renderer.RenderPlayer(screen, g.core.Player)
 	g.renderer.RenderWave(screen, g.core.Wave)
-	g.renderer.RenderHUD(screen, g.core.Player.HP, uint64(g.core.Player.Y))
+	g.renderer.RenderHUD(screen, g.core.Player.HP, g.core.GetHeight())
+	// Gameover view
+	if g.gameOverView.Active() {
+		g.gameOverView.Draw(screen)
+		return
+	}
 	// Bonus view
 	if g.bonusView.Active() {
 		g.bonusView.Draw(screen)

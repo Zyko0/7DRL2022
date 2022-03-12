@@ -16,14 +16,30 @@ func (b Bonus) String() string {
 		return "Wave Heal 5"
 	case BonusAirControl:
 		return "Air Control"
-	case BonusCrossBoundaries:
+	/*case BonusCrossBoundaries:
 		return "Cross Boundaries"
 	case BonusSpawnHearts:
-		return "Spawn Hearts"
+		return "Spawn Hearts"*/
 	case BonusStrongerJump:
 		return "Stronger Jump"
 	case BonusWeakerJump:
 		return "Weaker Jump"
+	case BonusShield:
+		return "Shield"
+	case BonusShield2:
+		return "Shield 2"
+	case BonusShield3:
+		return "Shield 3"
+	case BonusShield4:
+		return "Shield 4"
+	case BonusShield5:
+		return "Shield 5"
+	case BonusAutoCheckpoint:
+		return "Auto Checkpoint"
+	case BonusAutoCheckpoint2:
+		return "Auto Checkpoint 2"
+	case BonusAutoCheckpoint3:
+		return "Auto Checkpoint 3"
 	}
 
 	return ""
@@ -32,7 +48,7 @@ func (b Bonus) String() string {
 func (b Bonus) Description() string {
 	switch b {
 	case BonusNone:
-		return "No bonus"
+		return "Nothing left"
 	case BonusWaveHeal:
 		return "The wave heals half the time"
 	case BonusWaveHeal2:
@@ -45,14 +61,30 @@ func (b Bonus) Description() string {
 		return "The wave heals half the time but longer"
 	case BonusAirControl:
 		return "Lateral movement control mid-air"
-	case BonusCrossBoundaries:
+	/*case BonusCrossBoundaries:
 		return "Cross the screen boundaries"
 	case BonusSpawnHearts:
-		return "Healing hearts can spawn"
+		return "Healing hearts can spawn"*/
 	case BonusStrongerJump:
 		return "Jump higher + trigger checkpoint"
 	case BonusWeakerJump:
 		return "Jump lower + trigger checkpoint"
+	case BonusShield:
+		return "Shield refreshing"
+	case BonusShield2:
+		return "Shield refreshing faster"
+	case BonusShield3:
+		return "Shield refreshing even faster"
+	case BonusShield4:
+		return "Shield refreshing even faster"
+	case BonusShield5:
+		return "Shield refreshing even faster"
+	case BonusAutoCheckpoint:
+		return "Trigger checkpoint periodically"
+	case BonusAutoCheckpoint2:
+		return "Trigger checkpoint more often"
+	case BonusAutoCheckpoint3:
+		return "Trigger checkpoint even more often"
 	}
 
 	return ""

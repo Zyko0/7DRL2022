@@ -25,6 +25,7 @@ type Core struct {
 	nextHeight   float64
 	eventManager *event.Manager
 
+	bestHeight        float64
 	lastChestPlatform *platform.Platform
 
 	ChestPickedUp bool
@@ -99,6 +100,8 @@ func (c *Core) handleVelocity() {
 	// If not in air and not jumping
 	if c.Player.GroundedPlatform != nil && c.Player.VelocityVector[1] == 0 {
 		c.Player.VelocityVector[0] = c.Player.IntentVector[0] * c.Player.MoveSpeed
+	} else if c.Stats.AirControl && c.Player.IntentVector[0] != 0 {
+		c.Player.VelocityVector[0] = c.Player.IntentVector[0] * c.Player.MoveSpeed
 	}
 }
 
@@ -159,9 +162,8 @@ func (c *Core) handleCollisions() {
 }
 
 func (c *Core) Update() {
-	if c.Player.Y < 0 {
-		// TODO: this is game over
-		return
+	if c.Player.Y > c.bestHeight {
+		c.bestHeight = c.Player.Y
 	}
 
 	// Events
@@ -183,4 +185,16 @@ func (c *Core) Update() {
 	if inpututil.IsKeyJustPressed(ebiten.KeyBackspace) {
 		c.spawnRandomEnemy()
 	}
+}
+
+func (c *Core) GetHeight() uint64 {
+	return uint64(c.Player.Y) - logic.ScreenHeight/2 - logic.UnitSize*2
+}
+
+func (c *Core) GetBestHeight() uint64 {
+	return uint64(c.bestHeight) - logic.ScreenHeight/2 - logic.UnitSize*2
+}
+
+func (c *Core) IsGameOver() bool {
+	return c.Player.HP <= 0
 }

@@ -12,12 +12,27 @@ func chest(p vec2) vec4 {
 }
 
 func enemy(p vec2, args vec3) vec4 {
-	d := length(p)-1.
+	r := 1.
+	if args.z <= 0.25 {
+		r -= (1.-args.z * 4.)
+	}
+
+	d := length(p)-r
 	if d > 0. {
 		return vec4(0.)
 	}
+	d /= (r*2.)
+	clr := mix(
+		mix(
+			vec4(0.93, 0.11, 0.14, 1.),
+			vec4(0.61, 0.15, 0.71, 1.),
+			args.y,
+		),
+		vec4(1., 0.87, 0., 1.),
+		abs(d)*(clamp(0.75+args.x, 0., 1.)),
+	)
 
-	return vec4(-d, 0., 0., 1.)
+	return clr
 }
 
 func Fragment(position vec4, texCoord vec2, color vec4) vec4 {

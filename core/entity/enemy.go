@@ -69,6 +69,7 @@ func NewEnemy(x, y, w, h float64, spec EnemySpec) Entity {
 func (e *Enemy) Update(px, py float64) {
 	if e.deathTick == 0 || e.hadContact {
 		e.destroyed = true
+		e.deathTick = 0
 		return
 	}
 
@@ -123,5 +124,8 @@ func (e *Enemy) Contact() Contact {
 }
 
 func (e *Enemy) GetGfxParams() (float32, float32, float32, float32) {
-	return EntityEnemy, 0, 0, 0
+	return EntityEnemy,
+		float32(e.maxDist) / float32(MaxDistanceVeryLong),
+		float32((e.moveSpeed - MinEnemyMoveSpeed) / (MaxEnemyMoveSpeed - MinEnemyMoveSpeed)),
+		float32(e.deathTick) / float32(e.initialDeathTick)
 }

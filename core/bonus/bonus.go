@@ -14,8 +14,8 @@ const (
 	BonusWaveHeal4
 	BonusWaveHeal5
 	BonusAirControl
-	BonusCrossBoundaries
-	BonusSpawnHearts
+	// BonusCrossBoundaries
+	// BonusSpawnHearts
 	// BonusDash // Not sure
 	// BonusDoubleJump // Not sure
 
@@ -35,8 +35,8 @@ var (
 	primaries = []Bonus{
 		BonusWaveHeal,
 		BonusAirControl,
-		BonusSpawnHearts,
-		BonusCrossBoundaries,
+		// BonusSpawnHearts,
+		// BonusCrossBoundaries,
 		BonusShield,
 		BonusAutoCheckpoint,
 	}
@@ -81,7 +81,19 @@ func (bl *List) Roll() (Bonus, Bonus) {
 		bl.secondaries[i], bl.secondaries[j] = bl.secondaries[j], bl.secondaries[i]
 	})
 
-	return bl.primaries[0], bl.secondaries[0]
+	var primary, secondary Bonus
+	if len(bl.primaries) == 0 {
+		primary = BonusNone
+	} else {
+		primary = bl.primaries[0]
+	}
+	if len(bl.secondaries) == 0 {
+		secondary = BonusNone
+	} else {
+		secondary = bl.secondaries[0]
+	}
+
+	return primary, secondary
 }
 
 func (bl *List) Consume(b Bonus) {

@@ -14,7 +14,7 @@ type Stats struct {
 	EventPlatformsCount int
 	JumpForce           float64
 	WaveHealMod         uint64
-	EnemyMoveSpeed   float64
+	EnemyMoveSpeed      float64
 	MaxEnemyDistance    byte
 }
 
@@ -26,7 +26,7 @@ func NewStats() *Stats {
 		EventPlatformsCount: 4,
 		JumpForce:           BaseJumpForce,
 		WaveHealMod:         0,
-		EnemyMoveSpeed:   entity.MinEnemyMoveSpeed,
+		EnemyMoveSpeed:      entity.MinEnemyMoveSpeed,
 		MaxEnemyDistance:    entity.MaxDistanceShort,
 	}
 }
@@ -35,8 +35,8 @@ func (s *Stats) ApplyBonus(b bonus.Bonus) {
 	switch b {
 	case bonus.BonusAirControl:
 		s.AirControl = true
-	case bonus.BonusSpawnHearts:
-		s.SpawnHearts = true
+	/*case bonus.BonusSpawnHearts:
+	s.SpawnHearts = true*/
 	case bonus.BonusWaveHeal:
 		s.WaveHealMod += logic.TPS
 	case bonus.BonusStrongerJump:
