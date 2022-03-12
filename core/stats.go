@@ -16,6 +16,7 @@ type Stats struct {
 	WaveHealMod         uint64
 	EnemyMoveSpeed      float64
 	MaxEnemyDistance    byte
+	CheckpointMod       uint64
 }
 
 func NewStats() *Stats {
@@ -28,6 +29,7 @@ func NewStats() *Stats {
 		WaveHealMod:         0,
 		EnemyMoveSpeed:      entity.MinEnemyMoveSpeed,
 		MaxEnemyDistance:    entity.MaxDistanceShort,
+		CheckpointMod:       0,
 	}
 }
 
@@ -43,6 +45,12 @@ func (s *Stats) ApplyBonus(b bonus.Bonus) {
 		s.JumpForce += 0.5
 	case bonus.BonusWeakerJump:
 		s.JumpForce -= 0.5
+	case bonus.BonusAutoCheckpoint:
+		s.CheckpointMod = 60 * logic.TPS
+	case bonus.BonusAutoCheckpoint2:
+		s.CheckpointMod = 45 * logic.TPS
+	case bonus.BonusAutoCheckpoint3:
+		s.CheckpointMod = 30 * logic.TPS
 	}
 }
 

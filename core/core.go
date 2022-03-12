@@ -10,8 +10,6 @@ import (
 	"github.com/Zyko0/7DRL2022/core/platform"
 	"github.com/Zyko0/7DRL2022/core/utils"
 	"github.com/Zyko0/7DRL2022/logic"
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 const (
@@ -21,12 +19,15 @@ const (
 )
 
 type Core struct {
+	ticks        uint64
 	rng          *rand.Rand
 	nextHeight   float64
 	eventManager *event.Manager
 
 	bestHeight        float64
 	lastChestPlatform *platform.Platform
+
+	nextCheckpointTick uint64
 
 	ChestPickedUp bool
 
@@ -42,9 +43,12 @@ func NewCore() *Core {
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	return &Core{
+		ticks:        0,
 		rng:          rng,
 		nextHeight:   WaveIncreaseFrequencyHeightInterval,
 		eventManager: event.NewManager(),
+
+		nextCheckpointTick: 0,
 
 		ChestPickedUp: false,
 
@@ -67,10 +71,11 @@ func (c *Core) Initialize() {
 }
 
 func (c *Core) TriggerChestPlatformWave() {
-	c.lastChestPlatform.Width = logic.ScreenWidth
-	c.lastChestPlatform.X = logic.ScreenWidth / 2
-	c.lastChestPlatform.Crossable = false
+	c.lastChestPlatform.Enlarge()
 	c.Wave.reach(c.Player.Y - logic.ScreenHeight/2)
+	if c.Stats.CheckpointMod > 0 {
+		c.nextCheckpointTick = c.ticks + c.Stats.CheckpointMod
+	}
 }
 
 func (c *Core) handlePlatformGeneration() {
@@ -171,6 +176,12 @@ func (c *Core) Update() {
 	c.handleEvents()
 	// Platforms
 	c.handlePlatformGeneration()
+	if c.Stats.CheckpointMod > 0 && c.ticks > c.nextCheckpointTick {
+		if p := c.Player.GroundedPlatform; p != nil {
+			p.Enlarge()
+			c.nextCheckpointTick = c.ticks + c.Stats.CheckpointMod
+		}
+	}
 	// Player
 	c.Player.Update()
 	c.handleVelocity()
@@ -181,10 +192,7 @@ func (c *Core) Update() {
 	// Wave
 	c.Wave.Update(c.Player, c.Stats.WaveHealMod)
 
-	// TODO: debug
-	if inpututil.IsKeyJustPressed(ebiten.KeyBackspace) {
-		c.spawnRandomEnemy()
-	}
+	c.ticks++
 }
 
 func (c *Core) GetHeight() uint64 {

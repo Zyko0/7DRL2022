@@ -70,6 +70,7 @@ func (gv *GameoverView) Update(isGameOver bool, score uint64) {
 	gv.active = isGameOver
 	gv.score = score
 	if gv.active {
+		// TODO:
 		/*assets.StopInGameMusic()
 		assets.PlayGameoverMusic()*/
 	} else {

@@ -13,7 +13,7 @@ type Platform struct {
 	sided float64
 
 	GroundY  float64
-	GroundNY float64
+	GroundNY float64 // TODO: add this feature through bonus
 
 	X, Y       float64
 	CellsCount int
@@ -31,4 +31,10 @@ func New(x, y float64, cellsCount int, sided float64, crossable bool) *Platform 
 		Width:      float64(cellsCount) * logic.UnitSize,
 		Crossable:  crossable,
 	}
+}
+
+func (p *Platform) Enlarge() {
+	p.Width = logic.ScreenWidth
+	p.X = logic.ScreenWidth / 2
+	p.Crossable = false
 }

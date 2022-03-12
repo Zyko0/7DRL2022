@@ -8,7 +8,15 @@ const (
 )
 
 func chest(p vec2) vec4 {
-	return vec4(vec3(length(p)),1.)
+	d := length(mod(p, 0.5))
+	d = sqrt(d*d*(3.-2.*d))
+	clr := mix(
+		vec4(0.27, 0.84, 0.17, 1.),
+		vec4(0., 0.54, 0.85, 1.),
+		d,
+	)
+
+	return clr
 }
 
 func enemy(p vec2, args vec3) vec4 {
@@ -30,6 +38,18 @@ func enemy(p vec2, args vec3) vec4 {
 		),
 		vec4(1., 0.87, 0., 1.),
 		abs(d)*(clamp(0.75+args.x, 0., 1.)),
+	)
+
+	return clr
+}
+
+func shield(p vec2) vec4 {
+	d := length(p)
+	d = sqrt(d*d*(3.-2.*d))
+	clr := mix(
+		vec4(0.27, 0.84, 0.17, 1.),
+		vec4(0., 0.54, 0.85, 1.),
+		d,
 	)
 
 	return clr

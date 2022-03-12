@@ -43,7 +43,6 @@ func (c *Core) handleEvents() {
 			if c.Stats.EnemyMoveSpeed < entity.MaxEnemyMoveSpeed {
 				c.Stats.EnemyMoveSpeed += 0.5
 			}
-		default:
 		}
 	}
 }
