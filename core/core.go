@@ -178,8 +178,7 @@ func (c *Core) Update() {
 	c.handlePlatformGeneration()
 	if c.Stats.CheckpointMod > 0 && c.ticks > c.nextCheckpointTick {
 		if p := c.Player.GroundedPlatform; p != nil {
-			p.Enlarge()
-			c.nextCheckpointTick = c.ticks + c.Stats.CheckpointMod
+			c.TriggerChestPlatformWave()
 		}
 	}
 	// Player

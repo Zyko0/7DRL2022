@@ -9,6 +9,7 @@ import (
 	"github.com/Zyko0/7DRL2022/logic"
 	"github.com/Zyko0/7DRL2022/ui"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
@@ -86,6 +87,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.renderer.RenderPlayer(screen, g.core.Player)
 	g.renderer.RenderWave(screen, g.core.Wave)
 	g.renderer.RenderHUD(screen, g.core.Player.HP, g.core.GetHeight())
+	// Debug
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("%.2f", ebiten.CurrentFPS()))
 	// Gameover view
 	if g.gameOverView.Active() {
 		g.gameOverView.Draw(screen)
@@ -103,7 +106,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func main() {
-	ebiten.SetFPSMode(ebiten.FPSModeVsyncOn)
+	ebiten.SetFPSMode(ebiten.FPSModeVsyncOffMaximum)
 	ebiten.SetMaxTPS(logic.TPS)
 	ebiten.SetFullscreen(true)
 	ebiten.SetCursorMode(ebiten.CursorModeCaptured)
