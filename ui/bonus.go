@@ -25,7 +25,7 @@ const (
 )
 
 var (
-	bonusBgColor = []float32{0.7, 0, 0, 0.7}
+	bonusBgColor = []float32{0.4, 0, 0.8, 0.7}
 )
 
 type BonusView struct {
@@ -173,20 +173,31 @@ func (bv *BonusView) Draw(screen *ebiten.Image) {
 		geom := ebiten.GeoM{}
 		geom.Translate(
 			float64(x)+float64(bonusCardWidth)/2-float64(rect.Max.X)/2,
-			float64(y)+float64(bonusCardHeight)/6-float64(rect.Max.Y)/2,
+			float64(y)+float64(bonusCardHeight)/6-bonusCardIntervalOffset-float64(rect.Max.Y)/2,
 		)
 		text.DrawWithOptions(screen, bv.Bonuses[i].Name(), assets.CardTitleFontFace, &ebiten.DrawImageOptions{
 			GeoM: geom,
 		})
 		// Card description rectangle
-		y += bonusCardHeight / 6
+		y += bonusCardHeight/6 + bonusCardIntervalOffset
 		graphics.DrawRect(
 			screen,
 			x+bonusCardIntervalOffset, y,
 			bonusCardWidth-bonusCardIntervalOffset*2,
-			bonusCardHeight-bonusCardHeight/6-bonusCardIntervalOffset,
+			bonusCardHeight-bonusCardHeight/6-bonusCardIntervalOffset*2,
 			1, 1, 1, 0.5,
 		)
+		// Card description text
+		y += bonusCardHeight/6 + bonusCardIntervalOffset*2
+		rect = text.BoundString(assets.CardBodyTitleFontFace, bv.Bonuses[i].Description())
+		geom = ebiten.GeoM{}
+		geom.Translate(
+			float64(x)+float64(bonusCardWidth)/2-float64(rect.Max.X)/2,
+			float64(y)+float64(bonusCardHeight)/6-bonusCardIntervalOffset-float64(rect.Max.Y)/2,
+		)
+		text.DrawWithOptions(screen, bv.Bonuses[i].Description(), assets.CardBodyTitleFontFace, &ebiten.DrawImageOptions{
+			GeoM: geom,
+		})
 
 		// Highlight selection
 		if i == bv.SelectedIndex {

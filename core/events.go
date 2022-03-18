@@ -11,7 +11,7 @@ import (
 func (c *Core) handleEvents() {
 	// TODO: remove below
 	if c.Player.GroundedPlatform != nil {
-		// c.spawnChest(c.Player.GroundedPlatform)
+		c.spawnChest(c.Player.GroundedPlatform)
 	}
 	for e := c.eventManager.ConsumeEvent(); e != event.KindNone; e = c.eventManager.ConsumeEvent() {
 		switch e {
