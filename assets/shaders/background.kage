@@ -42,7 +42,7 @@ func colorize(t float) vec3 {
 		clamp(t-0.25, 0., 1.),
 	)
 	
-	return sqrt(clr)
+	return clr
 }
 
 func Fragment(position vec4, texCoord vec2, color vec4) vec4 {

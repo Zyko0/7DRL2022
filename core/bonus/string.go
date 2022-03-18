@@ -1,6 +1,6 @@
 package bonus
 
-func (b Bonus) String() string {
+func (b Bonus) Name() string {
 	switch b {
 	case BonusNone:
 		return "None"

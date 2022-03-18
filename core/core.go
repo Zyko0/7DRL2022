@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/Zyko0/7DRL2022/assets"
 	"github.com/Zyko0/7DRL2022/core/bonus"
 	"github.com/Zyko0/7DRL2022/core/entity"
 	"github.com/Zyko0/7DRL2022/core/event"
@@ -101,6 +102,7 @@ func (c *Core) handleVelocity() {
 		jv := utils.JumpVector(c.Stats.JumpForce, c.Player.Orientation)
 		c.Player.VelocityVector[0] = jv[0] * c.Player.MoveSpeed
 		c.Player.VelocityVector[1] = jv[1] * c.Player.MoveSpeed
+		assets.PlayJumpSound()
 	}
 	// If not in air and not jumping
 	if c.Player.GroundedPlatform != nil && c.Player.VelocityVector[1] == 0 {

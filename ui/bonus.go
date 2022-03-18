@@ -18,8 +18,8 @@ const (
 
 	bonusCardIntervalOffset = 12
 	bonusCardWidth          = (bonusBgWidth - bonusCardIntervalOffset*3) / 2
-	bonusCardHeight         = bonusBgHeight/4*2 - bonusCardIntervalOffset
-	bonusCardOffsetY        = bonusBgHeight / 4
+	bonusCardHeight         = bonusBgHeight/6*4 - bonusCardIntervalOffset
+	bonusCardOffsetY        = bonusBgHeight / 6
 
 	skipCardWidth = bonusCardWidth
 )
@@ -169,15 +169,25 @@ func (bv *BonusView) Draw(screen *ebiten.Image) {
 			bonusBgColor[0], bonusBgColor[1], bonusBgColor[2], bonusBgColor[3],
 		)
 		// Card title text
-		rect := text.BoundString(assets.CardTitleFontFace, bv.Bonuses[i].String())
+		rect := text.BoundString(assets.CardTitleFontFace, bv.Bonuses[i].Name())
 		geom := ebiten.GeoM{}
 		geom.Translate(
 			float64(x)+float64(bonusCardWidth)/2-float64(rect.Max.X)/2,
-			float64(y)+float64(bonusCardHeight)/2-float64(rect.Max.Y)/2,
+			float64(y)+float64(bonusCardHeight)/6-float64(rect.Max.Y)/2,
 		)
-		text.DrawWithOptions(screen, bv.Bonuses[i].String(), assets.CardTitleFontFace, &ebiten.DrawImageOptions{
+		text.DrawWithOptions(screen, bv.Bonuses[i].Name(), assets.CardTitleFontFace, &ebiten.DrawImageOptions{
 			GeoM: geom,
 		})
+		// Card description rectangle
+		y += bonusCardHeight / 6
+		graphics.DrawRect(
+			screen,
+			x+bonusCardIntervalOffset, y,
+			bonusCardWidth-bonusCardIntervalOffset*2,
+			bonusCardHeight-bonusCardHeight/6-bonusCardIntervalOffset,
+			1, 1, 1, 0.5,
+		)
+
 		// Highlight selection
 		if i == bv.SelectedIndex {
 			graphics.DrawRectBorder(
@@ -197,7 +207,7 @@ func (bv *BonusView) Draw(screen *ebiten.Image) {
 		screen,
 		x, y,
 		bonusCardWidth*2+bonusCardIntervalOffset,
-		bonusCardHeight/2-bonusCardIntervalOffset,
+		bonusCardHeight/4-bonusCardIntervalOffset,
 		0.2, 0.2, 0.2, 0.7,
 	)
 	// Card title text
@@ -206,7 +216,7 @@ func (bv *BonusView) Draw(screen *ebiten.Image) {
 	geom = ebiten.GeoM{}
 	geom.Translate(
 		float64(x)+float64(bonusCardWidth)+float64(bonusCardIntervalOffset)/2-float64(rect.Max.X)/2,
-		float64(y)+float64(bonusCardHeight)/4-float64(rect.Max.Y)/2,
+		float64(y)+float64(bonusCardHeight)/8-float64(rect.Max.Y)/2,
 	)
 	text.DrawWithOptions(screen, str, assets.CardTitleFontFace, &ebiten.DrawImageOptions{
 		GeoM: geom,
@@ -217,7 +227,7 @@ func (bv *BonusView) Draw(screen *ebiten.Image) {
 			screen,
 			x, y,
 			bonusCardWidth*2+bonusCardIntervalOffset,
-			bonusCardHeight/2-bonusCardIntervalOffset,
+			bonusCardHeight/4-bonusCardIntervalOffset,
 			2, 1, 1, 1, 0.9,
 		)
 	}
