@@ -1,9 +1,18 @@
 package main
 
-// TODO: remove this com => handle enemies oscillating, rotating, chests, etc..
-// TODO: this is a sdf shader
-
 var Orientation vec2
+var Ticks float
+
+func getYOffset() float {
+	const (
+		pi = 3.141592653589
+		d = 10.
+		shrink = 0.5
+	)
+
+	t := clamp(Ticks, 0., d)
+	return sin(t*pi/d)*shrink
+}
 
 func body(p vec2) vec3 {
 	x := abs(p.x*2.-1.)
@@ -43,9 +52,16 @@ func eyes(p vec2) vec3 {
 }
 
 func Fragment(position vec4, texCoord vec2, color vec4) vec4 {
-	clr := body(texCoord)
-	clr = shade(texCoord.y, clr)
-	clr *= eyes(texCoord)
+	yoff := getYOffset()
+	if texCoord.y < yoff {
+		return vec4(0.)
+	}
+
+	tc := vec2(texCoord.x, texCoord.y-yoff)
+
+	clr := body(tc)
+	clr = shade(tc.y, clr)
+	clr *= eyes(tc)
 
 	return vec4(clr, 1.)
 }

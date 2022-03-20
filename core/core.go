@@ -135,6 +135,7 @@ func (c *Core) handleCollisions() {
 						nx = c.Player.X + dx
 					}
 					c.Player.GroundedPlatform = p
+					c.Player.JumpTicks = 0
 					c.Player.VelocityVector[0] = 0
 					c.Player.VelocityVector[1] = 0
 					break
@@ -162,6 +163,7 @@ func (c *Core) handleCollisions() {
 	// Resolve fall speed
 	if c.Player.GroundedPlatform == nil {
 		c.Player.VelocityVector[1] += utils.FallSpeed
+		c.Player.JumpTicks++
 		if c.Player.VelocityVector[1] < utils.MaxFallSpeed {
 			c.Player.VelocityVector[1] = utils.MaxFallSpeed
 		}

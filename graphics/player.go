@@ -11,7 +11,8 @@ import (
 func (r *Renderer) RenderPlayer(screen *ebiten.Image, p *core.Player) {
 	vertices, indices := AppendQuadVerticesIndices(
 		nil, nil,
-		float32(p.X-p.Width/2), float32(logic.ScreenHeight/2-p.Height/2),
+		float32(p.X-p.Width/2),
+		float32(logic.ScreenHeight/2-p.Height/2),
 		float32(p.Width), float32(p.Height),
 		0, 0, 0, 0, 0,
 	)
@@ -26,6 +27,7 @@ func (r *Renderer) RenderPlayer(screen *ebiten.Image, p *core.Player) {
 	screen.DrawTrianglesShader(vertices, indices, assets.PlayerShader, &ebiten.DrawTrianglesShaderOptions{
 		Uniforms: map[string]interface{}{
 			"Orientation": []float32{orientationX, orientationY},
+			"Ticks":       float32(p.JumpTicks),
 		},
 	})
 }

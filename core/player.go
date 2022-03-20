@@ -18,6 +18,7 @@ type Player struct {
 	Width, Height float64
 	MoveSpeed     float64
 
+	JumpTicks        float64
 	HP               float64
 	GroundedPlatform *platform.Platform
 	Orientation      float64
@@ -33,6 +34,7 @@ func NewPlayer() *Player {
 		Height:    logic.UnitSize * 2,
 		MoveSpeed: DefaultMoveSpeed,
 
+		JumpTicks:        0,
 		HP:               PlayerMaxHP,
 		GroundedPlatform: nil,
 		Orientation:      0,
